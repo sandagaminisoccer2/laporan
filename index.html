@@ -345,6 +345,34 @@ tfoot td:first-child{text-align:left; position:sticky; left:0; font-family:'Beba
 tfoot td.out{color:var(--rust-700);}
 tfoot td.net{color:var(--teal-800);}
 tfoot td.net.minus{color:var(--rust-700);}
+/* Daftar kartu per hari: khusus HP (tanpa geser samping) */
+.dl-list{display:none;}
+.dl-item{padding:11px 14px 12px; border-bottom:1px dashed var(--line); cursor:pointer; background:var(--white);}
+.dl-item:nth-child(even){background:#fcf8ec;}
+.dl-item:active{background:var(--gold-100);}
+.dl-top{display:flex; align-items:center; gap:10px;}
+.dl-date{display:flex; align-items:baseline; gap:6px; flex:1;}
+.dl-date b{font-family:'Bebas Neue',cursive; font-weight:400; font-size:26px; letter-spacing:.5px; color:var(--teal-800); line-height:1;}
+.dl-date small{font-size:10px; font-weight:700; letter-spacing:.9px; text-transform:uppercase; color:var(--gold-600);}
+.dl-net{text-align:right; line-height:1;}
+.dl-net small{display:block; font-size:9px; letter-spacing:1px; text-transform:uppercase; font-weight:600; color:var(--ink-600); margin-bottom:2px;}
+.dl-net b{font-family:'Bebas Neue',cursive; font-weight:400; font-size:23px; letter-spacing:.4px; color:var(--teal-700);}
+.dl-net.minus b{color:var(--rust-700);}
+.dl-mini{display:grid; grid-template-columns:repeat(3,1fr); gap:6px; margin-top:8px;}
+.dl-mini > div{background:var(--cream-50); border:1px solid var(--line); border-radius:10px; padding:5px 8px;}
+.dl-mini small{display:block; font-size:8.5px; letter-spacing:.9px; text-transform:uppercase; font-weight:600; color:var(--ink-600);}
+.dl-mini span{display:block; font-size:12px; font-weight:700; font-variant-numeric:tabular-nums; margin-top:1px;}
+.dl-mini .out span{color:var(--rust-700);}
+.dl-empty{margin-top:4px; font-size:11px; color:var(--ink-600);}
+.dl-item.zero .dl-date b{color:var(--ink-600); opacity:.55;}
+.dl-item.zero{padding:9px 14px;}
+.dl-item.zero .dl-top{align-items:center;}
+.dl-total{background:var(--gold-100) !important; border-top:2px solid var(--gold-500); border-bottom:0; cursor:default;}
+.dl-total .dl-date b{font-size:22px;}
+@media (max-width:600px){
+  .tbl-scroll{display:none;}
+  .dl-list{display:block;}
+}
 .tbl-hint{font-size:10.5px; color:var(--ink-600); text-align:center; padding:9px 12px 11px; background:var(--white);}
 
 /* ===== STATE ===== */
@@ -792,8 +820,25 @@ function renderBulanan(){
       <td>${num(s.lap)}</td><td>${num(s.min)}</td><td class="out">${num(s.out)}</td>
       <td class="net ${s.bersih<0?'minus':''}">${s.has ? fmt(s.bersih) : '–'}</td>
     </tr>`).join('');
+  const mini = s => `<div class="dl-mini">
+      <div><small>Lapangan</small><span>${num(s.lap)}</span></div>
+      <div><small>Minuman</small><span>${num(s.min)}</span></div>
+      <div class="out"><small>Keluar</small><span>${num(s.out)}</span></div></div>`;
+  const list = [...days].reverse().map(({d,s}) => `<div class="dl-item${s.has?'':' zero'}" data-date="${d}">
+      <div class="dl-top">
+        <div class="dl-date"><b>${Number(d.slice(8))}</b><small>${HARI[parse(d).getDay()]}</small></div>
+        ${s.has ? `<div class="dl-net ${s.bersih<0?'minus':''}"><small>Bersih</small><b>${rp(s.bersih)}</b></div>` : '<span class="dl-empty">Tidak ada transaksi</span>'}
+      </div>
+      ${s.has ? mini(s) : ''}
+    </div>`).join('');
+  const listTotal = `<div class="dl-item dl-total">
+      <div class="dl-top">
+        <div class="dl-date"><b>TOTAL</b></div>
+        <div class="dl-net ${T.bersih<0?'minus':''}"><small>Bersih</small><b>${rp(T.bersih)}</b></div>
+      </div>${mini(T)}</div>`;
   html += `<div class="tbl-wrap">
     <div class="block-head"><h3>Rincian Per Hari</h3><span class="count">${days.length} hari</span></div>
+    <div class="dl-list">${listTotal}${list}</div>
     <div class="tbl-scroll"><table>
       <thead><tr><th>Tgl</th><th>Lapangan</th><th>Minuman</th><th>Keluar</th><th>Bersih</th></tr></thead>
       <tbody>${rows}</tbody>
