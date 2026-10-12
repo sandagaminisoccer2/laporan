@@ -138,7 +138,86 @@ main{max-width:820px; margin:0 auto; padding:22px 16px calc(96px + var(--safe-bo
 }
 .pk-main small{font-size:9.5px; letter-spacing:1.8px; font-weight:600; color:var(--gold-600); text-transform:uppercase;}
 .pk-main .pk-label{font-size:14.5px; font-weight:700; color:var(--ink-900); line-height:1.25;}
-.pk-main input{position:absolute; inset:0; width:100%; height:100%; opacity:0; cursor:pointer; border:0;}
+button.pk-main{font-family:inherit; color:inherit;}
+button.pk-main:active{transform:scale(.99);}
+
+/* ===== KALENDER KUSTOM ===== */
+.cal-overlay{
+  position:fixed; inset:0; z-index:100; display:flex; align-items:center; justify-content:center;
+  padding:16px; background:rgba(12,58,53,0.55);
+  -webkit-backdrop-filter:blur(3px); backdrop-filter:blur(3px);
+  animation:fadeIn .2s ease both;
+}
+.cal-overlay[hidden]{display:none;}
+@keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
+.cal{
+  width:min(100%, 360px); background:var(--white);
+  border:1.5px solid var(--line); border-radius:24px; overflow:hidden;
+  box-shadow:0 30px 60px -20px rgba(12,58,53,0.7);
+  animation:calPop .26s cubic-bezier(.2,.9,.3,1.2) both;
+}
+@keyframes calPop{from{opacity:0; transform:translateY(14px) scale(.96);}to{opacity:1; transform:none;}}
+.cal-head{
+  display:flex; align-items:center; gap:6px; padding:12px 12px 12px;
+  background:linear-gradient(150deg, var(--teal-950), var(--teal-700));
+  border-bottom:1px solid rgba(219,164,60,0.4);
+}
+.cal-nav{
+  width:38px; height:38px; flex-shrink:0; cursor:pointer; border:0; border-radius:12px;
+  background:rgba(255,253,247,0.1); color:var(--cream-50);
+  display:flex; align-items:center; justify-content:center; transition:background .15s;
+}
+.cal-nav:hover{background:rgba(255,253,247,0.2);}
+.cal-nav:disabled{opacity:.3; cursor:default;}
+.cal-nav svg{width:17px; height:17px;}
+.cal-title{
+  flex:1; cursor:pointer; border:0; background:transparent; color:var(--cream-50);
+  font-family:'Bebas Neue',cursive; font-size:25px; letter-spacing:.8px; line-height:1;
+  padding:6px 4px; border-radius:12px; display:inline-flex; align-items:center; justify-content:center; gap:6px;
+}
+.cal-title:hover{background:rgba(255,253,247,0.08);}
+.cal-title svg{width:13px; height:13px; color:var(--gold-500);}
+.cal-title.static{cursor:default;}
+.cal-title.static:hover{background:transparent;}
+.cal-body{padding:12px 12px 6px;}
+.cal-week,.cal-days{display:grid; grid-template-columns:repeat(7,1fr); gap:4px;}
+.cal-week{margin-bottom:6px;}
+.cal-week span{text-align:center; font-size:10px; letter-spacing:.8px; font-weight:700; color:var(--gold-600); text-transform:uppercase; padding:4px 0;}
+.cal-week span:last-child{color:var(--rust-600);}
+.cal-day{
+  position:relative; aspect-ratio:1/1; cursor:pointer; border:0; background:transparent;
+  border-radius:13px; font-size:13.5px; font-weight:600; color:var(--ink-900);
+  display:flex; align-items:center; justify-content:center; transition:background .12s, transform .12s;
+}
+.cal-day:hover:not(:disabled):not(.sel){background:var(--gold-100);}
+.cal-day:active:not(:disabled){transform:scale(.92);}
+.cal-day.sun{color:var(--rust-600);}
+.cal-day.today{box-shadow:inset 0 0 0 1.5px var(--gold-500);}
+.cal-day.sel{background:var(--teal-950); color:var(--cream-50); box-shadow:none; font-weight:700;}
+.cal-day:disabled{opacity:.28; cursor:default;}
+.cal-day.has::after{
+  content:''; position:absolute; bottom:5px; left:50%; width:5px; height:5px; margin-left:-2.5px;
+  border-radius:50%; background:var(--gold-500);
+}
+.cal-day.sel.has::after{background:var(--gold-500);}
+.cal-day.blank{visibility:hidden; pointer-events:none;}
+.cal-months{display:grid; grid-template-columns:repeat(3,1fr); gap:8px; padding:4px 0 6px;}
+.cal-mon{
+  cursor:pointer; border:1.5px solid var(--line); background:var(--white); border-radius:14px;
+  padding:14px 0; font-size:13.5px; font-weight:600; color:var(--ink-900); transition:all .12s;
+}
+.cal-mon:hover:not(:disabled):not(.sel){background:var(--gold-100);}
+.cal-mon.now{border-color:var(--gold-500);}
+.cal-mon.sel{background:var(--teal-950); border-color:var(--teal-950); color:var(--cream-50); font-weight:700;}
+.cal-mon:disabled{opacity:.28; cursor:default;}
+.cal-foot{display:flex; gap:8px; padding:8px 12px 14px;}
+.cal-foot button{
+  flex:1; cursor:pointer; min-height:42px; border-radius:14px; font-size:13px; font-weight:700;
+  border:1.5px solid var(--line); background:transparent; color:var(--ink-600);
+}
+.cal-foot button.primary{background:var(--gold-500); border-color:var(--gold-500); color:var(--teal-950);}
+.cal-legend{display:flex; align-items:center; justify-content:center; gap:6px; font-size:10.5px; color:var(--ink-600); padding:2px 12px 4px;}
+.cal-legend i{width:6px; height:6px; border-radius:50%; background:var(--gold-500); display:inline-block;}
 .chips{display:flex; gap:8px; margin:10px 0 18px;}
 .chip{
   cursor:pointer; background:transparent; border:1.5px solid var(--line);
@@ -316,11 +395,10 @@ tfoot td.net.minus{color:var(--rust-700);}
   <section class="view" id="view-harian">
     <div class="picker">
       <button class="pk-btn" id="dPrev" aria-label="Hari sebelumnya"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button>
-      <label class="pk-main">
+      <button type="button" class="pk-main" id="dOpen" aria-label="Pilih tanggal">
         <small>Laporan Harian</small>
         <span class="pk-label" id="dLabel">—</span>
-        <input type="date" id="dInput" aria-label="Pilih tanggal"/>
-      </label>
+      </button>
       <button class="pk-btn" id="dNext" aria-label="Hari berikutnya"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></button>
     </div>
     <div class="chips">
@@ -336,11 +414,10 @@ tfoot td.net.minus{color:var(--rust-700);}
   <section class="view" id="view-bulanan" hidden>
     <div class="picker">
       <button class="pk-btn" id="mPrev" aria-label="Bulan sebelumnya"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button>
-      <label class="pk-main">
+      <button type="button" class="pk-main" id="mOpen" aria-label="Pilih bulan">
         <small>Laporan Bulanan</small>
         <span class="pk-label" id="mLabel">—</span>
-        <input type="month" id="mInput" aria-label="Pilih bulan"/>
-      </label>
+      </button>
       <button class="pk-btn" id="mNext" aria-label="Bulan berikutnya"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></button>
     </div>
     <div class="chips">
@@ -355,6 +432,11 @@ tfoot td.net.minus{color:var(--rust-700);}
 
   <div class="foot" id="foot"></div>
 </main>
+
+<!-- Kalender kustom -->
+<div class="cal-overlay" id="calOverlay" hidden>
+  <div class="cal" id="cal" role="dialog" aria-modal="true"></div>
+</div>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
@@ -738,14 +820,12 @@ function render(animate){
 
   // label & kontrol
   $('dLabel').textContent = parse(selDate).toLocaleDateString('id-ID', {weekday:'long', day:'numeric', month:'long', year:'numeric'});
-  $('dInput').value = selDate;
   $('dNext').disabled = selDate >= t;
   $('dToday').classList.toggle('on', selDate === t);
   $('dYest').classList.toggle('on', selDate === addDays(t,-1));
 
   const thisM = t.slice(0,7);
   $('mLabel').textContent = parse(selMonth + '-01').toLocaleDateString('id-ID', {month:'long', year:'numeric'});
-  $('mInput').value = selMonth;
   $('mNext').disabled = selMonth >= thisM;
   $('mThis').classList.toggle('on', selMonth === thisM);
   $('mLast').classList.toggle('on', selMonth === addMonths(thisM,-1));
@@ -782,13 +862,105 @@ $('dPrev').onclick = () => { selDate = addDays(selDate,-1); nav(); };
 $('dNext').onclick = () => { if(selDate < todayStr()){ selDate = addDays(selDate,1); nav(); } };
 $('dToday').onclick = () => { selDate = todayStr(); nav(); };
 $('dYest').onclick = () => { selDate = addDays(todayStr(),-1); nav(); };
-$('dInput').addEventListener('change', e => { if(e.target.value){ selDate = e.target.value; nav(); } });
 $('mPrev').onclick = () => { selMonth = addMonths(selMonth,-1); nav(); };
 $('mNext').onclick = () => { if(selMonth < todayStr().slice(0,7)){ selMonth = addMonths(selMonth,1); nav(); } };
 $('mThis').onclick = () => { selMonth = todayStr().slice(0,7); nav(); };
 $('mLast').onclick = () => { selMonth = addMonths(todayStr().slice(0,7),-1); nav(); };
-$('mInput').addEventListener('change', e => { if(e.target.value){ selMonth = e.target.value; nav(); } });
-['dInput','mInput'].forEach(id => $(id).addEventListener('click', e => { try{ e.target.showPicker && e.target.showPicker(); }catch(_){} }));
+
+/* ============ KALENDER KUSTOM ============ */
+const MONTHS = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+const MON_SHORT = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
+const ICO_L = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>';
+const ICO_R = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg>';
+const ICO_D = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>';
+let calMode = null;   // 'day' | 'month'
+let cal = null;       // {y, m, sub:'days'|'months'}
+
+function openCal(mode){
+  calMode = mode;
+  if(mode === 'day'){ const d = parse(selDate); cal = {y:d.getFullYear(), m:d.getMonth(), sub:'days'}; }
+  else cal = {y:Number(selMonth.slice(0,4)), m:Number(selMonth.slice(5,7))-1, sub:'months'};
+  drawCal();
+  $('calOverlay').hidden = false;
+  document.body.style.overflow = 'hidden';
+}
+function closeCal(){
+  $('calOverlay').hidden = true;
+  document.body.style.overflow = '';
+  calMode = null;
+}
+function drawCal(){
+  const t = todayStr(), ty = Number(t.slice(0,4)), tm = Number(t.slice(5,7)) - 1;
+  let head, body, foot;
+
+  if(calMode === 'day' && cal.sub === 'days'){
+    const {y,m} = cal;
+    const offset = (new Date(y,m,1).getDay() + 6) % 7;     // minggu mulai hari Senin
+    const total = new Date(y,m+1,0).getDate();
+    const atMax = (y > ty) || (y === ty && m >= tm);
+    head = `<button class="cal-nav" data-act="prev" aria-label="Bulan sebelumnya">${ICO_L}</button>
+      <button class="cal-title" data-act="title">${MONTHS[m]} ${y}${ICO_D}</button>
+      <button class="cal-nav" data-act="next" aria-label="Bulan berikutnya" ${atMax?'disabled':''}>${ICO_R}</button>`;
+    let cells = '';
+    for(let i=0;i<offset;i++) cells += '<span class="cal-day blank"></span>';
+    for(let d=1; d<=total; d++){
+      const ds = `${y}-${pad(m+1)}-${pad(d)}`;
+      const dow = (offset + d - 1) % 7;
+      const o = DAYS[ds];
+      const has = o && (o.lap.length || o.min.length || o.out.length);
+      cells += `<button class="cal-day${dow===6?' sun':''}${ds===t?' today':''}${ds===selDate?' sel':''}${has?' has':''}" data-act="day" data-v="${ds}" ${ds>t?'disabled':''}>${d}</button>`;
+    }
+    body = `<div class="cal-week">${['Sen','Sel','Rab','Kam','Jum','Sab','Min'].map(x=>`<span>${x}</span>`).join('')}</div>
+      <div class="cal-days">${cells}</div>
+      <div class="cal-legend"><i></i>ada transaksi</div>`;
+    foot = `<button data-act="close">Tutup</button><button class="primary" data-act="today">Hari ini</button>`;
+  } else {
+    // pilih bulan (dipakai tab Bulanan, dan sebagai lompat-cepat di tab Harian)
+    const y = cal.y;
+    const selY = calMode === 'month' ? Number(selMonth.slice(0,4)) : cal.y;
+    const selM = calMode === 'month' ? Number(selMonth.slice(5,7)) - 1 : cal.m;
+    head = `<button class="cal-nav" data-act="yprev" aria-label="Tahun sebelumnya">${ICO_L}</button>
+      <button class="cal-title static" disabled>${y}</button>
+      <button class="cal-nav" data-act="ynext" aria-label="Tahun berikutnya" ${y>=ty?'disabled':''}>${ICO_R}</button>`;
+    body = `<div class="cal-months">${MON_SHORT.map((n,i)=>{
+      const dis = y > ty || (y === ty && i > tm);
+      const isSel = (y === selY && i === selM);
+      const isNow = (y === ty && i === tm);
+      return `<button class="cal-mon${isSel?' sel':''}${isNow?' now':''}" data-act="mon" data-v="${i}" ${dis?'disabled':''}>${n}</button>`;
+    }).join('')}</div>`;
+    foot = calMode === 'month'
+      ? `<button data-act="close">Tutup</button><button class="primary" data-act="thismonth">Bulan ini</button>`
+      : `<button data-act="back">Kembali</button><button class="primary" data-act="thismonth">Bulan ini</button>`;
+  }
+  $('cal').innerHTML = `<div class="cal-head">${head}</div><div class="cal-body">${body}</div><div class="cal-foot">${foot}</div>`;
+}
+$('cal').addEventListener('click', e => {
+  const b = e.target.closest('[data-act]');
+  if(!b || b.disabled) return;
+  const act = b.dataset.act, v = b.dataset.v;
+  const t = todayStr();
+  if(act === 'close') return closeCal();
+  if(act === 'prev'){ cal.m--; if(cal.m < 0){ cal.m = 11; cal.y--; } return drawCal(); }
+  if(act === 'next'){ cal.m++; if(cal.m > 11){ cal.m = 0; cal.y++; } return drawCal(); }
+  if(act === 'yprev'){ cal.y--; return drawCal(); }
+  if(act === 'ynext'){ cal.y++; return drawCal(); }
+  if(act === 'title'){ cal.sub = 'months'; return drawCal(); }
+  if(act === 'back'){ cal.sub = 'days'; return drawCal(); }
+  if(act === 'day'){ selDate = v; closeCal(); return nav(); }
+  if(act === 'today'){ selDate = t; closeCal(); return nav(); }
+  if(act === 'thismonth'){
+    if(calMode === 'month'){ selMonth = t.slice(0,7); closeCal(); return nav(); }
+    cal.y = Number(t.slice(0,4)); cal.m = Number(t.slice(5,7)) - 1; cal.sub = 'days'; return drawCal();
+  }
+  if(act === 'mon'){
+    if(calMode === 'month'){ selMonth = `${cal.y}-${pad(Number(v)+1)}`; closeCal(); return nav(); }
+    cal.m = Number(v); cal.sub = 'days'; return drawCal();
+  }
+});
+$('calOverlay').addEventListener('click', e => { if(e.target === $('calOverlay')) closeCal(); });
+document.addEventListener('keydown', e => { if(e.key === 'Escape' && calMode) closeCal(); });
+$('dOpen').onclick = () => openCal('day');
+$('mOpen').onclick = () => openCal('month');
 
 // ketuk baris tabel / batang grafik -> buka laporan harian tanggal itu
 $('bulananBody').addEventListener('click', e => {
