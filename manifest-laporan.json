@@ -1,0 +1,15 @@
+{
+  "name": "Laporan Keuangan Sandaga Minisoccer",
+  "short_name": "Laporan",
+  "description": "Laporan keuangan Sandaga Minisoccer",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#071a4d",
+  "theme_color": "#071a4d",
+  "icons": [
+    { "src": "ikon-laporan.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "ikon-laporan.png", "sizes": "512x512", "type": "image/png", "purpose": "any" }
+  ]
+}
