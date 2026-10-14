@@ -460,7 +460,7 @@ tfoot td.net.minus{color:var(--red-700);}
       <button class="pk-btn" id="dNext" aria-label="Hari berikutnya"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></button>
     </div>
     <div class="chips">
-          <button class="chip pick" id="dPick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M8 3v4M16 3v4M3 11h18"/></svg>Pilih tanggal</button><button class="chip right" id="dCsv"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7 11l5 5 5-5M5 20h14"/></svg>CSV</button><button class="chip right" id="dJpg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="3"/><circle cx="9" cy="10" r="1.6"/><path d="M21 16l-5-5-8 8"/></svg>JPG</button>
+          <button class="chip pick" id="dPick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M8 3v4M16 3v4M3 11h18"/></svg>Pilih tanggal</button><button class="chip right" id="dCsv"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7 11l5 5 5-5M5 20h14"/></svg>Excel</button><button class="chip right" id="dJpg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="3"/><circle cx="9" cy="10" r="1.6"/><path d="M21 16l-5-5-8 8"/></svg>JPG</button>
     </div>
     <div id="harianBody">
       <div class="state-box"><div class="spinner"></div><div>Memuat laporan...</div></div>
@@ -478,7 +478,7 @@ tfoot td.net.minus{color:var(--red-700);}
       <button class="pk-btn" id="mNext" aria-label="Bulan berikutnya"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></button>
     </div>
     <div class="chips">
-      <button class="chip right" id="mCsv"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7 11l5 5 5-5M5 20h14"/></svg>CSV</button><button class="chip right" id="mJpg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="3"/><circle cx="9" cy="10" r="1.6"/><path d="M21 16l-5-5-8 8"/></svg>JPG</button>
+      <button class="chip right" id="mCsv"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7 11l5 5 5-5M5 20h14"/></svg>Excel</button><button class="chip right" id="mJpg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="3"/><circle cx="9" cy="10" r="1.6"/><path d="M21 16l-5-5-8 8"/></svg>JPG</button>
     </div>
     <div id="bulananBody">
       <div class="state-box"><div class="spinner"></div><div>Memuat laporan...</div></div>
@@ -499,7 +499,7 @@ tfoot td.net.minus{color:var(--red-700);}
       </button>
     </div>
     <div class="chips">
-      <button class="chip right" id="pCsv"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7 11l5 5 5-5M5 20h14"/></svg>CSV</button><button class="chip right" id="pJpg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="3"/><circle cx="9" cy="10" r="1.6"/><path d="M21 16l-5-5-8 8"/></svg>JPG</button>
+      <button class="chip right" id="pCsv"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7 11l5 5 5-5M5 20h14"/></svg>Excel</button><button class="chip right" id="pJpg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="3"/><circle cx="9" cy="10" r="1.6"/><path d="M21 16l-5-5-8 8"/></svg>JPG</button>
     </div>
     <div id="periodeBody">
       <div class="state-box"><div class="spinner"></div><div>Memuat laporan...</div></div>
@@ -1119,6 +1119,89 @@ function exportCsv(){
   saveBlob(new Blob(['\ufeff' + csv], {type:'text/csv;charset=utf-8;'}), `laporan-keuangan-${cur.file}.csv`);
 }
 
+/* ---- Excel (.xlsx) berwarna, tema sama dengan web ---- */
+let _xl = null;
+const loadXl = () => _xl || (_xl = new Promise((res, rej) => {
+  if(window.ExcelJS) return res();
+  const s = document.createElement('script'); s.src = 'https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.4.0/exceljs.min.js';
+  s.onload = res; s.onerror = () => rej(new Error('exceljs')); document.head.appendChild(s);
+}));
+async function exportExcel(){
+  if(!ready()) return;
+  const cur = current();
+  if(!cur.dates.length){ alert('Belum ada data untuk periode ini.'); return; }
+  try{ await loadXl(); }catch(e){ _xl = null; return exportCsv(); }
+  const {days, T} = aggregate(cur.dates);
+  const X = {navy:'FF0F2F80', n950:'FF071A4D', n700:'FF1A45A8', gold:'FFE3A72A', gold6:'FFA8700F', gold1:'FFFCF1D3', ice:'FFF4F8FD', ice1:'FFDBE7F8', red:'FFB3121F', line:'FFD3DFF1', ink:'FF0E1A3F', ink6:'FF566587', white:'FFFFFFFF', zebra:'FFF6F9FE'};
+  const fill = c => ({type:'pattern', pattern:'solid', fgColor:{argb:c}});
+  const thin = {style:'thin', color:{argb:X.line}}, box = {top:thin, bottom:thin, left:thin, right:thin};
+  const RP = '"Rp" #,##0;[Red]-"Rp" #,##0;"–"', RP0 = '"Rp" #,##0;[Red]-"Rp" #,##0';
+  const wb = new ExcelJS.Workbook(); wb.creator = 'Sandaga Minisoccer';
+  const ws = wb.addWorksheet('Laporan', {views:[{showGridLines:false}], pageSetup:{orientation:'landscape', fitToPage:true, fitToWidth:1, fitToHeight:0}});
+  [13,9,17,17,18,17,17,17,17,17,19,19,18].forEach((w,i) => ws.getColumn(i+1).width = w);
+  let r = 1;
+  const band = (text, h, font, bg, ha) => { ws.mergeCells(r,1,r,13); const c = ws.getCell(r,1); c.value = text; c.font = font; c.fill = fill(bg); c.alignment = {vertical:'middle', horizontal:ha||'left', indent:1}; ws.getRow(r).height = h; r++; };
+  band('SANDAGA MINISOCCER', 24, {size:11, bold:true, color:{argb:X.gold}}, X.n950);
+  band('Laporan Keuangan ' + cur.kind, 38, {size:24, bold:true, color:{argb:X.white}}, X.n950);
+  band(`Periode: ${cur.label}     •     Dicetak: ${stamp()}`, 24, {size:11, color:{argb:X.ice1}}, X.n950);
+  ws.getRow(r++).height = 10;
+
+  // 4 kartu ringkas
+  const kpis = [['TOTAL PEMASUKAN', T.masuk, X.navy, 1, 3], ['PENGELUARAN', T.out, X.red, 4, 6], ['HASIL BERSIH', T.bersih, T.bersih < 0 ? X.red : X.navy, 7, 9], ['TOTAL CASH SEHARUSNYA', T.sisaCash, X.gold6, 10, 13]];
+  kpis.forEach(([l,v,col,a,b]) => {
+    ws.mergeCells(r,a,r,b); ws.mergeCells(r+1,a,r+1,b);
+    const c1 = ws.getCell(r,a), c2 = ws.getCell(r+1,a);
+    c1.value = l; c1.font = {size:10, bold:true, color:{argb:X.ink6}}; c1.fill = fill(X.ice1); c1.alignment = {horizontal:'center', vertical:'middle'};
+    c2.value = v; c2.numFmt = RP0; c2.font = {size:20, bold:true, color:{argb:col}}; c2.fill = fill(X.ice); c2.alignment = {horizontal:'center', vertical:'middle'};
+    for(let k = a; k <= b; k++){ ws.getCell(r,k).fill = fill(X.ice1); ws.getCell(r+1,k).fill = fill(X.ice); ws.getCell(r+1,k).border = {bottom:{style:'medium', color:{argb:col}}}; }
+  });
+  ws.getRow(r).height = 22; ws.getRow(r+1).height = 36; r += 3;
+
+  const sec = t => { ws.mergeCells(r,1,r,13); const c = ws.getCell(r,1); c.value = t.toUpperCase(); c.font = {size:13, bold:true, color:{argb:X.navy}}; c.fill = fill(X.gold1);
+    c.alignment = {vertical:'middle', indent:1}; for(let k = 1; k <= 13; k++){ ws.getCell(r,k).fill = fill(X.gold1); ws.getCell(r,k).border = {bottom:{style:'medium', color:{argb:X.gold}}}; } ws.getRow(r).height = 26; r++; };
+  const kv = rows => { rows.forEach(([l,v,k], i) => {
+    ws.mergeCells(r,1,r,4); ws.mergeCells(r,5,r,6);
+    const a = ws.getCell(r,1), b = ws.getCell(r,5), strong = k === 'hl' || k === 'total';
+    const bg = k === 'hl' ? X.gold1 : k === 'total' ? X.ice1 : (i % 2 ? X.zebra : X.white), col = k === 'warn' ? X.red : strong ? X.navy : X.ink;
+    a.value = l; b.value = v; b.numFmt = RP0;
+    [a,b].forEach(c => { c.font = {size:11, bold:strong, color:{argb:col}}; c.fill = fill(bg); c.border = box; c.alignment = {vertical:'middle', indent:c === a ? 1 : 0, horizontal:c === a ? 'left' : 'right'}; });
+    [2,3,4,6].forEach(n => { ws.getCell(r,n).border = box; ws.getCell(r,n).fill = fill(bg); });
+    ws.getRow(r).height = 22; r++; }); r++; };
+  sec('Ringkasan');
+  kv([['Total Pemasukan', T.masuk, 'total'], ['   Sewa Lapangan', T.lap], ['   Penjualan Minuman', T.min], ['Pengeluaran', T.out], ['Hasil Bersih', T.bersih, 'total']]);
+  sec('Rincian Kas');
+  kv(kasRows(T));
+
+  sec('Rincian Per Hari');
+  const heads = ['Tanggal','Hari','Sewa Lapangan','Minuman','Total Pemasukan','Cash Lapangan','Cash Minuman','QRIS / Transfer','Pengeluaran','Hasil Bersih','Sisa Cash Lapangan','Sisa Cash Minuman','Total Sisa Cash'];
+  heads.forEach((h,i) => { const c = ws.getCell(r,i+1); c.value = h; c.font = {size:10, bold:true, color:{argb:X.white}}; c.fill = fill(X.n950); c.alignment = {horizontal:i < 2 ? 'left' : 'center', vertical:'middle', wrapText:true, indent:i < 2 ? 1 : 0}; c.border = box; });
+  ws.getRow(r).height = 32; r++;
+  const line = (vals, bg, bold, top) => { vals.forEach((v,i) => { const c = ws.getCell(r,i+1); c.value = v; c.fill = fill(bg); c.border = top ? {...box, top:{style:'medium', color:{argb:X.gold}}} : box;
+      c.font = {size:11, bold, color:{argb: i === 8 ? X.red : (i === 9 || i >= 10) ? X.navy : X.ink}};
+      if(i > 1){ c.numFmt = RP; c.alignment = {horizontal:'right', vertical:'middle'}; } else c.alignment = {horizontal:'left', vertical:'middle', indent:1}; });
+    ws.getRow(r).height = 22; r++; };
+  days.forEach(({d,s}, i) => line([dmy(d), HARI[parse(d).getDay()], s.lap, s.min, s.masuk, s.lapCash, s.minCash, s.non, s.out, s.bersih, s.sisaLap, s.sisaMin, s.sisaCash], i % 2 ? X.zebra : X.white, false));
+  line(['TOTAL','', T.lap, T.min, T.masuk, T.lapCash, T.minCash, T.non, T.out, T.bersih, T.sisaLap, T.sisaMin, T.sisaCash], X.gold1, true, true);
+  r++; ws.mergeCells(r,1,r,13); const ft2 = ws.getCell(r,1); ft2.value = 'Sandaga Minisoccer • Laporan Keuangan'; ft2.font = {size:9, italic:true, color:{argb:X.ink6}}; ft2.alignment = {horizontal:'center'};
+
+  // sheet 2: detail transaksi
+  const w2 = wb.addWorksheet('Detail Transaksi', {views:[{showGridLines:false, state:'frozen', ySplit:3}]});
+  [13,18,40,14,16,17,17,17,32].forEach((w,i) => w2.getColumn(i+1).width = w);
+  w2.mergeCells(1,1,1,9); const t1 = w2.getCell(1,1); t1.value = 'Detail Transaksi — ' + cur.label; t1.font = {size:16, bold:true, color:{argb:X.white}}; t1.alignment = {vertical:'middle', indent:1};
+  for(let k = 1; k <= 9; k++) w2.getCell(1,k).fill = fill(X.n950); w2.getRow(1).height = 36; w2.getRow(2).height = 8;
+  ['Tanggal','Kategori','Keterangan','Jenis','Metode','Jumlah','Cash','QRIS / Transfer','Catatan'].forEach((h,i) => { const c = w2.getCell(3,i+1); c.value = h; c.font = {size:10, bold:true, color:{argb:X.white}}; c.fill = fill(X.navy); c.border = box; c.alignment = {vertical:'middle', horizontal:i >= 5 && i <= 7 ? 'center' : 'left', indent:i >= 5 && i <= 7 ? 0 : 1}; });
+  w2.getRow(3).height = 28; let n = 0, r2 = 4;
+  cur.dates.forEach(d => { const o = DAYS[d]; if(!o) return;
+    [['Sewa Lapangan',o.lap,X.n700],['Minuman',o.min,X.gold6],['Pengeluaran',o.out,X.red]].forEach(([k,list,col]) => list.forEach(x => {
+      [dmy(d), k, x.title, x.tag||'', x.metode||'', x.free?0:x.amount, x.cash||0, x.non||0, x.note||''].forEach((v,i) => { const c = w2.getCell(r2,i+1); c.value = v; c.border = box; c.fill = fill(n % 2 ? X.zebra : X.white);
+        c.font = {size:11, bold:i === 1, color:{argb:i === 1 ? col : X.ink}}; if(i >= 5 && i <= 7){ c.numFmt = RP; c.alignment = {horizontal:'right', vertical:'middle'}; } else c.alignment = {vertical:'middle', indent:1}; });
+      w2.getRow(r2).height = 21; r2++; n++; })); });
+  if(n) w2.autoFilter = {from:{row:3, column:1}, to:{row:3, column:9}};
+
+  const buf = await wb.xlsx.writeBuffer();
+  saveBlob(new Blob([buf], {type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'}), `laporan-keuangan-${cur.file}.xlsx`);
+}
+
 /* ---- JPG: digambar di canvas dengan tema sama seperti web ---- */
 const CL = {n950:'#071a4d', n800:'#0f2f80', n700:'#1a45a8', cyan:'#19c8ee', ice50:'#f4f8fd', ice100:'#dbe7f8', red:'#dc2030', red7:'#b3121f', gold:'#e3a72a', gold6:'#a8700f', gold1:'#fcf1d3', ink:'#0e1a3f', ink6:'#566587', line:'#d3dff1'};
 const BEB = "'Bebas Neue', Impact, sans-serif", POP = "'Poppins', Arial, sans-serif";
@@ -1262,7 +1345,7 @@ async function exportJpg(){
   try{ blob = await toBlob(await makeImg(M)); }catch(e){ M.logo = null; blob = await toBlob(await makeImg(M)); }
   saveBlob(blob, `laporan-keuangan-${cur.file}.jpg`);
 }
-['d','m','p'].forEach(k => { $(k+'Csv').addEventListener('click', exportCsv); $(k+'Jpg').addEventListener('click', exportJpg); });
+['d','m','p'].forEach(k => { $(k+'Csv').addEventListener('click', exportExcel); $(k+'Jpg').addEventListener('click', exportJpg); });
 
 /* ============ REALTIME ============ */
 let buildTimer = null;
