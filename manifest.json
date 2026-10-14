@@ -7,10 +7,10 @@
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait",
-  "background_color": "#fbf5e4",
-  "theme_color": "#0c3a35",
+  "background_color": "#f4f8fd",
+  "theme_color": "#071a4d",
   "icons": [
-    { "src": "ikon.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
-    { "src": "ikon.png", "sizes": "512x512", "type": "image/png", "purpose": "any" }
+    { "src": "ikon-laporan.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "ikon-laporan.png", "sizes": "512x512", "type": "image/png", "purpose": "any" }
   ]
 }
