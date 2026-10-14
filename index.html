@@ -1370,5 +1370,64 @@ NODES.forEach(n => {
 
 render(false);
 </script>
+
+<!-- ===== PWA: SERVICE WORKER + TOMBOL INSTALL (Android/Chrome & iPhone) ===== -->
+<style>
+#pwa-install-fab{display:none;position:fixed;right:14px;bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:9998;
+  width:48px;height:48px;border:0;border-radius:50%;background:#071a4d;color:#fff;font-size:1.3rem;
+  box-shadow:0 6px 18px rgba(0,0,0,.3);cursor:pointer;align-items:center;justify-content:center}
+.pwa-modal{display:none;position:fixed;inset:0;z-index:9999;background:rgba(7,26,77,.6);align-items:center;justify-content:center;padding:20px}
+.pwa-modal.show{display:flex}
+.pwa-card{background:#fff;border-radius:18px;padding:22px;max-width:340px;width:100%;text-align:center;font-family:Poppins,sans-serif;color:#334155}
+.pwa-card img{width:64px;height:64px;border-radius:14px;margin-bottom:8px}
+.pwa-card h3{margin:0 0 8px;font-size:1.05rem;color:#071a4d}
+.pwa-card p,.pwa-card ol{font-size:.8rem;line-height:1.55;margin:0 0 16px;text-align:left}
+.pwa-card ol{padding-left:18px}
+.pwa-row{display:flex;gap:10px}
+.pwa-row button{flex:1;padding:11px;border:0;border-radius:12px;font-weight:700;font-family:inherit;cursor:pointer}
+.pwa-no{background:#e2e8f0;color:#334155}.pwa-yes{background:#071a4d;color:#fff}
+</style>
+<button id="pwa-install-fab" type="button" aria-label="Install Aplikasi" title="Install Aplikasi">📲</button>
+<div id="pwa-modal" class="pwa-modal"><div class="pwa-card">
+  <img alt="" src="ikon-laporan.png"/>
+  <h3>Pasang Aplikasi Laporan?</h3>
+  <p>Pasang di layar utama HP supaya bisa dibuka seperti aplikasi biasa.</p>
+  <div class="pwa-row"><button class="pwa-no" id="pwa-no" type="button">Nanti</button><button class="pwa-yes" id="pwa-yes" type="button">📲 Install</button></div>
+</div></div>
+<div id="pwa-ios" class="pwa-modal"><div class="pwa-card">
+  <img alt="" src="ikon-laporan.png"/>
+  <h3>Pasang Aplikasi Laporan</h3>
+  <ol><li>Tap ikon <b>Share</b> ⬆️ di Safari</li><li>Pilih <b>Tambah ke Layar Utama</b></li><li>Tap <b>Tambah</b></li></ol>
+  <div class="pwa-row"><button class="pwa-yes" id="pwa-ios-close" type="button">Mengerti</button></div>
+</div></div>
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function () {
+    navigator.serviceWorker.register('sw-laporan.js').catch(function (e) { console.log('SW gagal:', e); });
+  });
+}
+(function () {
+  var deferred = null, KEY = 'laporanPwaDismissed';
+  var fab = document.getElementById('pwa-install-fab');
+  var modal = document.getElementById('pwa-modal');
+  var ios = document.getElementById('pwa-ios');
+  function standalone() { return matchMedia('(display-mode: standalone)').matches || navigator.standalone === true; }
+  function isIos() { return /iphone|ipad|ipod/i.test(navigator.userAgent); }
+  function dismissed() { try { return localStorage.getItem(KEY) === '1'; } catch (e) { return false; } }
+  function remember() { try { localStorage.setItem(KEY, '1'); } catch (e) {} }
+  if (standalone()) return;
+  window.addEventListener('beforeinstallprompt', function (e) {
+    e.preventDefault(); deferred = e; fab.style.display = 'flex';
+    if (!dismissed()) setTimeout(function () { modal.classList.add('show'); }, 900);
+  });
+  window.addEventListener('appinstalled', function () { fab.style.display = 'none'; modal.classList.remove('show'); deferred = null; });
+  function run() { if (!deferred) return; var p = deferred; deferred = null; fab.style.display = 'none'; p.prompt(); }
+  document.getElementById('pwa-no').onclick = function () { modal.classList.remove('show'); remember(); };
+  document.getElementById('pwa-yes').onclick = function () { modal.classList.remove('show'); remember(); run(); };
+  document.getElementById('pwa-ios-close').onclick = function () { ios.classList.remove('show'); remember(); };
+  fab.onclick = function () { isIos() ? ios.classList.add('show') : run(); };
+  if (isIos()) { fab.style.display = 'flex'; }
+})();
+</script>
 </body>
 </html>
