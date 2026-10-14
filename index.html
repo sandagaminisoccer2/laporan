@@ -460,9 +460,7 @@ tfoot td.net.minus{color:var(--red-700);}
       <button class="pk-btn" id="dNext" aria-label="Hari berikutnya"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></button>
     </div>
     <div class="chips">
-      <button class="chip" id="dToday">Hari ini</button>
-      <button class="chip" id="dYest">Kemarin</button>
-      <button class="chip pick" id="dPick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M8 3v4M16 3v4M3 11h18"/></svg>Pilih tanggal</button><button class="chip right" id="dCsv"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7 11l5 5 5-5M5 20h14"/></svg>CSV</button><button class="chip right" id="dJpg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="3"/><circle cx="9" cy="10" r="1.6"/><path d="M21 16l-5-5-8 8"/></svg>JPG</button>
+          <button class="chip pick" id="dPick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M8 3v4M16 3v4M3 11h18"/></svg>Pilih tanggal</button><button class="chip right" id="dCsv"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7 11l5 5 5-5M5 20h14"/></svg>CSV</button><button class="chip right" id="dJpg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="3"/><circle cx="9" cy="10" r="1.6"/><path d="M21 16l-5-5-8 8"/></svg>JPG</button>
     </div>
     <div id="harianBody">
       <div class="state-box"><div class="spinner"></div><div>Memuat laporan...</div></div>
@@ -929,8 +927,6 @@ function render(animate){
   // label & kontrol
   $('dLabel').textContent = parse(selDate).toLocaleDateString('id-ID', {weekday:'long', day:'numeric', month:'long', year:'numeric'});
   $('dNext').disabled = selDate >= t;
-  $('dToday').classList.toggle('on', selDate === t);
-  $('dYest').classList.toggle('on', selDate === addDays(t,-1));
 
   const thisM = t.slice(0,7);
   $('mLabel').textContent = parse(selMonth + '-01').toLocaleDateString('id-ID', {month:'long', year:'numeric'});
@@ -972,8 +968,6 @@ document.querySelectorAll('.dock button').forEach(b => b.addEventListener('click
 const nav = () => render(true);
 $('dPrev').onclick = () => { selDate = addDays(selDate,-1); nav(); };
 $('dNext').onclick = () => { if(selDate < todayStr()){ selDate = addDays(selDate,1); nav(); } };
-$('dToday').onclick = () => { selDate = todayStr(); nav(); };
-$('dYest').onclick = () => { selDate = addDays(todayStr(),-1); nav(); };
 $('mPrev').onclick = () => { selMonth = addMonths(selMonth,-1); nav(); };
 $('mNext').onclick = () => { if(selMonth < todayStr().slice(0,7)){ selMonth = addMonths(selMonth,1); nav(); } };
 
