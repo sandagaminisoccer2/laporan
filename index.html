@@ -241,15 +241,15 @@ button.pk-main:active{transform:scale(.99);}
 .cal-foot button.primary{background:var(--gold-500); border-color:var(--gold-500); color:var(--navy-950);}
 .cal-legend{display:flex; align-items:center; justify-content:center; gap:6px; font-size:10.5px; color:var(--ink-600); padding:2px 12px 4px;}
 .cal-legend i{width:6px; height:6px; border-radius:50%; background:var(--gold-500); display:inline-block;}
-.chips{display:flex; flex-wrap:wrap; gap:8px; margin:10px 0 18px;}
+.chips{display:flex; flex-wrap:wrap; justify-content:center; gap:8px; margin:10px 0 18px;}
 .chip{
   cursor:pointer; background:transparent; border:1.5px solid var(--line);
   color:var(--ink-600); font-size:12px; font-weight:600;
   padding:6px 14px; border-radius:100px; transition:all .15s;
 }
 .chip.on{background:var(--navy-950); border-color:var(--navy-950); color:var(--ice-50);}
-.chip.right{margin-left:auto; border-color:var(--gold-500); color:var(--navy-800); display:inline-flex; align-items:center; gap:6px;}
-.chip.right svg{width:14px;height:14px;}
+.chip.right,.chip.pick{border-color:var(--gold-500); color:var(--navy-800); display:inline-flex; align-items:center; gap:6px;}
+.chip.right svg,.chip.pick svg{width:14px;height:14px;}
 
 /* ===== HERO ===== */
 .hero{
@@ -327,6 +327,9 @@ button.pk-main:active{transform:scale(.99);}
 .row.total{background:var(--ice-50);}
 .row.total .row-title{font-weight:800; color:var(--navy-800);}
 .row.warn .row-title{color:var(--red-700);}
+.row.hl{background:var(--gold-100);}
+.row.hl .row-title{font-weight:700; color:var(--navy-800);}
+.dl-mini.two{grid-template-columns:repeat(2,1fr);}
 
 /* ===== GRAFIK ===== */
 .chart-card{margin-top:18px; background:var(--white); border:1.5px solid var(--line); border-radius:18px; padding:14px 14px 10px;}
@@ -347,7 +350,7 @@ button.pk-main:active{transform:scale(.99);}
 /* ===== TABEL BULANAN ===== */
 .tbl-wrap{margin-top:18px; background:var(--white); border:1.5px solid var(--line); border-radius:18px; overflow:hidden;}
 .tbl-scroll{overflow-x:auto;}
-table{width:100%; border-collapse:collapse; font-size:12px; min-width:470px; font-variant-numeric:tabular-nums;}
+table{width:100%; border-collapse:collapse; font-size:12px; min-width:640px; font-variant-numeric:tabular-nums;}
 thead th{
   background:var(--navy-950); color:var(--ice-100); font-weight:600; font-size:10px;
   letter-spacing:.9px; text-transform:uppercase; padding:11px 10px; text-align:right; white-space:nowrap;
@@ -459,6 +462,7 @@ tfoot td.net.minus{color:var(--red-700);}
     <div class="chips">
       <button class="chip" id="dToday">Hari ini</button>
       <button class="chip" id="dYest">Kemarin</button>
+      <button class="chip pick" id="dPick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M8 3v4M16 3v4M3 11h18"/></svg>Pilih tanggal</button><button class="chip right" id="dCsv"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7 11l5 5 5-5M5 20h14"/></svg>CSV</button><button class="chip right" id="dJpg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="3"/><circle cx="9" cy="10" r="1.6"/><path d="M21 16l-5-5-8 8"/></svg>JPG</button>
     </div>
     <div id="harianBody">
       <div class="state-box"><div class="spinner"></div><div>Memuat laporan...</div></div>
@@ -476,9 +480,7 @@ tfoot td.net.minus{color:var(--red-700);}
       <button class="pk-btn" id="mNext" aria-label="Bulan berikutnya"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></button>
     </div>
     <div class="chips">
-      <button class="chip" id="mThis">Bulan ini</button>
-      <button class="chip" id="mLast">Bulan lalu</button>
-      <button class="chip right" id="mCsv"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7 11l5 5 5-5M5 20h14"/></svg>CSV</button>
+      <button class="chip right" id="mCsv"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7 11l5 5 5-5M5 20h14"/></svg>CSV</button><button class="chip right" id="mJpg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="3"/><circle cx="9" cy="10" r="1.6"/><path d="M21 16l-5-5-8 8"/></svg>JPG</button>
     </div>
     <div id="bulananBody">
       <div class="state-box"><div class="spinner"></div><div>Memuat laporan...</div></div>
@@ -499,10 +501,7 @@ tfoot td.net.minus{color:var(--red-700);}
       </button>
     </div>
     <div class="chips">
-      <button class="chip" id="p7">7 Hari</button>
-      <button class="chip" id="p30">30 Hari</button>
-      <button class="chip" id="pMonth">Bulan ini</button>
-      <button class="chip right" id="pCsv"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7 11l5 5 5-5M5 20h14"/></svg>CSV</button>
+      <button class="chip right" id="pCsv"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7 11l5 5 5-5M5 20h14"/></svg>CSV</button><button class="chip right" id="pJpg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="3"/><circle cx="9" cy="10" r="1.6"/><path d="M21 16l-5-5-8 8"/></svg>JPG</button>
     </div>
     <div id="periodeBody">
       <div class="state-box"><div class="spinner"></div><div>Memuat laporan...</div></div>
@@ -775,35 +774,36 @@ function statHtml(label, value, color, extra){
 }
 
 /* ============ RENDER: HARIAN ============ */
+/* Kartu & rincian kas (dipakai Harian, Bulanan, Periode, dan JPG) */
+function statItems(s, days){
+  const a = [['Sewa Lapangan', s.lap, '#2158c9'], ['Penjualan Minuman', s.min, '#a8700f'], ['Pengeluaran', s.out, '#b3121f']];
+  if(days){
+    let best = null; days.forEach(x => { if(x.s.masuk > 0 && (!best || x.s.masuk > best.s.masuk)) best = x; });
+    const avg = s.aktif ? Math.round(s.masuk / s.aktif) : 0;
+    a.push(['Rata-rata / Hari', avg, '#0f2f80', s.aktif ? `dari ${s.aktif} hari ada pemasukan` : 'belum ada data'],
+           ['Hari Terbaik', best ? best.s.masuk : 0, '#a8700f', best ? `${HARI[parse(best.d).getDay()]}, ${dmy(best.d).slice(0,5)}` : '-']);
+  }
+  a.push(['Sisa Cash Lapangan', s.sisaLap, '#1a45a8', 'setelah pengeluaran'],
+         ['Sisa Cash Minuman', s.sisaMin, '#a8700f', 'setelah pengeluaran'],
+         ['Total Cash Seharusnya', s.sisaCash, '#0f2f80', 'lapangan + minuman']);
+  return a;
+}
+function kasRows(s){
+  return [['Cash masuk — lapangan', s.lapCash], ['Cash masuk — minuman', s.minCash], ['QRIS / Transfer masuk', s.non],
+    ['Pengeluaran dari cash lapangan', s.outLap], ['Pengeluaran dari cash minuman', s.outMin],
+    ...(s.short > 0 ? [['Pengeluaran melebihi cash tersedia', s.short, 'warn']] : []),
+    ['Sisa cash lapangan', s.sisaLap, 'hl'], ['Sisa cash minuman', s.sisaMin, 'hl'], ['Total cash seharusnya', s.sisaCash, 'total']];
+}
+const kasHtml = s => `<section class="block"><div class="block-head"><h3>Rincian Kas</h3></div>${kasRows(s).map(([l,v,c]) => simpleRow(l,v,c)).join('')}</section>`;
+const statsHtml = (items, six) => `<div class="stats${six?' six':''}">${items.map(([l,v,c,e]) => statHtml(l,v,c,e)).join('')}</div>`;
+
 function renderHarian(){
-  const s = summarize(selDate);
-  const o = DAYS[selDate] || EMPTY_DAY;
-
-  let html = heroHtml('TOTAL PEMASUKAN', s, 'Hasil Bersih');
-  html += `<div class="stats">
-    ${statHtml('Sewa Lapangan', s.lap, 'var(--navy-600)')}
-    ${statHtml('Penjualan Minuman', s.min, 'var(--gold-600)')}
-    ${statHtml('Pengeluaran', s.out, 'var(--red-700)')}
-    ${statHtml('Cash Seharusnya', s.sisaCash, 'var(--navy-800)', 'setelah pengeluaran')}
-  </div>`;
-
-  html += blockHtml('Sewa Lapangan', o.lap, s.lap, 'var(--navy-700)', '', 'Belum ada pemasukan lapangan.');
-  html += blockHtml('Penjualan Minuman', o.min, s.min, 'var(--gold-600)', '', 'Belum ada penjualan minuman.');
-  html += blockHtml('Pengeluaran', o.out, s.out, 'var(--red-700)', 'out', 'Tidak ada pengeluaran.');
-
-  html += `<section class="block">
-    <div class="block-head"><h3>Rincian Kas</h3></div>
-    ${simpleRow('Cash masuk — lapangan', s.lapCash)}
-    ${simpleRow('Cash masuk — minuman', s.minCash)}
-    ${simpleRow('QRIS / Transfer masuk', s.non)}
-    ${simpleRow('Pengeluaran dari cash lapangan', s.outLap)}
-    ${simpleRow('Pengeluaran dari cash minuman', s.outMin)}
-    ${s.short > 0 ? simpleRow('Pengeluaran melebihi cash tersedia', s.short, 'warn') : ''}
-    ${simpleRow('Sisa cash lapangan', s.sisaLap)}
-    ${simpleRow('Sisa cash minuman', s.sisaMin)}
-    ${simpleRow('Total cash seharusnya', s.sisaCash, 'total')}
-  </section>`;
-  return html;
+  const s = summarize(selDate), o = DAYS[selDate] || EMPTY_DAY;
+  return heroHtml('TOTAL PEMASUKAN', s, 'Hasil Bersih') + statsHtml(statItems(s), true)
+    + blockHtml('Sewa Lapangan', o.lap, s.lap, 'var(--navy-700)', '', 'Belum ada pemasukan lapangan.')
+    + blockHtml('Penjualan Minuman', o.min, s.min, 'var(--gold-600)', '', 'Belum ada penjualan minuman.')
+    + blockHtml('Pengeluaran', o.out, s.out, 'var(--red-700)', 'out', 'Tidak ada pengeluaran.')
+    + kasHtml(s);
 }
 
 /* ============ RENDER: BULANAN ============ */
@@ -818,7 +818,7 @@ function monthDates(ym){
 }
 const HARI = ['Min','Sen','Sel','Rab','Kam','Jum','Sab'];
 
-const SUM_KEYS = ['lap','min','masuk','cash','non','out','bersih','sisaCash'];
+const SUM_KEYS = ['lap','min','masuk','cash','non','out','bersih','sisaCash','sisaLap','sisaMin','lapCash','minCash','outLap','outMin','short'];
 function aggregate(dates){
   const days = dates.map(d => ({d, s: summarize(d)}));
   const T = days.reduce((a,{s}) => {
@@ -841,18 +841,7 @@ function rangeData(a, b){ return aggregate(rangeDates(a, b)); }
 function renderReport(days, T, cfg){
   let html = heroHtml(cfg.hero, T, 'Hasil Bersih');
 
-  let best = null;
-  days.forEach(x => { if(x.s.masuk > 0 && (!best || x.s.masuk > best.s.masuk)) best = x; });
-  const avg = T.aktif ? Math.round(T.masuk / T.aktif) : 0;
-
-  html += `<div class="stats six">
-    ${statHtml('Sewa Lapangan', T.lap, 'var(--navy-600)')}
-    ${statHtml('Penjualan Minuman', T.min, 'var(--gold-600)')}
-    ${statHtml('Pengeluaran', T.out, 'var(--red-700)')}
-    ${statHtml('Rata-rata / Hari', avg, 'var(--navy-800)', T.aktif ? `dari ${T.aktif} hari ada pemasukan` : 'belum ada data')}
-    ${statHtml('Hari Terbaik', best ? best.s.masuk : 0, 'var(--gold-600)', best ? `${HARI[parse(best.d).getDay()]}, ${dmy(best.d).slice(0,5)}` : '-')}
-    ${statHtml('Cash Seharusnya', T.sisaCash, 'var(--navy-700)', cfg.cashNote)}
-  </div>`;
+  html += statsHtml(statItems(T, days), false);
 
   if(!days.length){
     return html + `<div class="state-box"><div class="display">Belum ada data</div><div>${esc(cfg.emptyMsg)}</div></div>`;
@@ -881,12 +870,13 @@ function renderReport(days, T, cfg){
   const rows = [...days].reverse().map(({d,s}) => `<tr data-date="${d}" class="${s.has ? '' : 'zero'}">
       <td>${dl(d)}<small>${HARI[parse(d).getDay()]}</small></td>
       <td>${num(s.lap)}</td><td>${num(s.min)}</td><td class="out">${num(s.out)}</td>
-      <td class="net ${s.bersih<0?'minus':''}">${s.has ? fmt(s.bersih) : '–'}</td>
+      <td class="net ${s.bersih<0?'minus':''}">${s.has ? fmt(s.bersih) : '–'}</td><td>${num(s.sisaLap)}</td><td>${num(s.sisaMin)}</td>
     </tr>`).join('');
   const mini = s => `<div class="dl-mini">
       <div><small>Lapangan</small><span>${num(s.lap)}</span></div>
       <div><small>Minuman</small><span>${num(s.min)}</span></div>
-      <div class="out"><small>Keluar</small><span>${num(s.out)}</span></div></div>`;
+      <div class="out"><small>Keluar</small><span>${num(s.out)}</span></div></div>
+    <div class="dl-mini two"><div><small>Sisa Cash Lap</small><span>${num(s.sisaLap)}</span></div><div><small>Sisa Cash Min</small><span>${num(s.sisaMin)}</span></div></div>`;
   const list = [...days].reverse().map(({d,s}) => `<div class="dl-item${s.has?'':' zero'}" data-date="${d}">
       <div class="dl-top">
         <div class="dl-date"><b>${dl(d)}</b><small>${HARI[parse(d).getDay()]}</small></div>
@@ -903,12 +893,13 @@ function renderReport(days, T, cfg){
     <div class="block-head"><h3>Rincian Per Hari</h3><span class="count">${days.length} hari</span></div>
     <div class="dl-list">${listTotal}${list}</div>
     <div class="tbl-scroll"><table>
-      <thead><tr><th>Tgl</th><th>Lapangan</th><th>Minuman</th><th>Keluar</th><th>Bersih</th></tr></thead>
+      <thead><tr><th>Tgl</th><th>Lapangan</th><th>Minuman</th><th>Keluar</th><th>Bersih</th><th>Sisa Lap</th><th>Sisa Min</th></tr></thead>
       <tbody>${rows}</tbody>
-      <tfoot><tr><td>Total</td><td>${fmt(T.lap)}</td><td>${fmt(T.min)}</td><td class="out">${fmt(T.out)}</td><td class="net ${T.bersih<0?'minus':''}">${fmt(T.bersih)}</td></tr></tfoot>
+      <tfoot><tr><td>Total</td><td>${fmt(T.lap)}</td><td>${fmt(T.min)}</td><td class="out">${fmt(T.out)}</td><td class="net ${T.bersih<0?'minus':''}">${fmt(T.bersih)}</td><td>${fmt(T.sisaLap)}</td><td>${fmt(T.sisaMin)}</td></tr></tfoot>
     </table></div>
     <div class="tbl-hint">Angka dalam Rupiah • ketuk baris untuk melihat laporan hari itu</div>
   </div>`;
+  html += kasHtml(T);
   return html;
 }
 
@@ -944,15 +935,10 @@ function render(animate){
   const thisM = t.slice(0,7);
   $('mLabel').textContent = parse(selMonth + '-01').toLocaleDateString('id-ID', {month:'long', year:'numeric'});
   $('mNext').disabled = selMonth >= thisM;
-  $('mThis').classList.toggle('on', selMonth === thisM);
-  $('mLast').classList.toggle('on', selMonth === addMonths(thisM,-1));
 
   const fmtShort = ds => parse(ds).toLocaleDateString('id-ID', {day:'numeric', month:'short', year:'numeric'});
   $('pFromLabel').textContent = fmtShort(selFrom);
   $('pToLabel').textContent = fmtShort(selTo);
-  $('p7').classList.toggle('on', selTo === t && selFrom === addDays(t,-6));
-  $('p30').classList.toggle('on', selTo === t && selFrom === addDays(t,-29));
-  $('pMonth').classList.toggle('on', selTo === t && selFrom === thisM + '-01');
 
   const err = stateHtml();
   if(err){ $('harianBody').innerHTML = err; $('bulananBody').innerHTML = err; $('periodeBody').innerHTML = err; return; }
@@ -990,11 +976,6 @@ $('dToday').onclick = () => { selDate = todayStr(); nav(); };
 $('dYest').onclick = () => { selDate = addDays(todayStr(),-1); nav(); };
 $('mPrev').onclick = () => { selMonth = addMonths(selMonth,-1); nav(); };
 $('mNext').onclick = () => { if(selMonth < todayStr().slice(0,7)){ selMonth = addMonths(selMonth,1); nav(); } };
-$('mThis').onclick = () => { selMonth = todayStr().slice(0,7); nav(); };
-$('mLast').onclick = () => { selMonth = addMonths(todayStr().slice(0,7),-1); nav(); };
-$('p7').onclick = () => { selTo = todayStr(); selFrom = addDays(selTo,-6); nav(); };
-$('p30').onclick = () => { selTo = todayStr(); selFrom = addDays(selTo,-29); nav(); };
-$('pMonth').onclick = () => { selTo = todayStr(); selFrom = selTo.slice(0,7) + '-01'; nav(); };
 
 /* ============ KALENDER KUSTOM ============ */
 const MONTHS = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
@@ -1098,6 +1079,7 @@ $('cal').addEventListener('click', e => {
 $('calOverlay').addEventListener('click', e => { if(e.target === $('calOverlay')) closeCal(); });
 document.addEventListener('keydown', e => { if(e.key === 'Escape' && calMode) closeCal(); });
 $('dOpen').onclick = () => openCal('day');
+$('dPick').onclick = () => openCal('day');
 $('mOpen').onclick = () => openCal('month');
 $('pFromOpen').onclick = () => openCal('from');
 $('pToOpen').onclick = () => openCal('to');
@@ -1110,29 +1092,183 @@ $('pToOpen').onclick = () => openCal('to');
   setView('harian');
 }));
 
-/* ============ CSV (Bulanan & Periode) ============ */
-function exportCsv(days, T, filename){
-  const head = ['Tanggal','Sewa Lapangan','Minuman','Total Pemasukan','Cash','QRIS/TF','Pengeluaran','Hasil Bersih','Sisa Cash'];
-  const line = (label, s) => [label, s.lap, s.min, s.masuk, s.cash, s.non, s.out, s.bersih, s.sisaCash];
-  const data = [head, ...days.map(({d,s}) => line(d, s)), line('TOTAL', T)];
-  const csv = data.map(r => r.map(v => `"${String(v ?? '').replace(/"/g,'""')}"`).join(',')).join('\n');
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(new Blob(['\ufeff' + csv], {type:'text/csv;charset=utf-8;'}));
-  a.download = filename;
-  document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+/* ============ EXPORT: CSV & JPG (Harian, Bulanan, Periode) ============ */
+const stamp = () => { const n = new Date(); return `${pad(n.getDate())}/${pad(n.getMonth()+1)}/${n.getFullYear()} ${pad(n.getHours())}.${pad(n.getMinutes())}`; };
+function saveBlob(blob, name){
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = name;
+  document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 1500);
 }
-$('mCsv').addEventListener('click', () => {
+function current(){
+  if(view === 'harian') return {kind:'Harian', label: parse(selDate).toLocaleDateString('id-ID',{weekday:'long',day:'numeric',month:'long',year:'numeric'}), dates:[selDate], file:'harian-'+selDate};
+  if(view === 'bulanan') return {kind:'Bulanan', label: parse(selMonth+'-01').toLocaleDateString('id-ID',{month:'long',year:'numeric'}), dates:monthDates(selMonth), file:'bulanan-'+selMonth};
+  return {kind:'Periode', label:`${dmy(selFrom)} – ${dmy(selTo)}`, dates:rangeDates(selFrom, selTo), file:`periode-${selFrom}_sd_${selTo}`};
+}
+function exportCsv(){
   if(!ready()) return;
-  const {days, T} = monthData(selMonth);
-  if(!days.length){ alert('Belum ada data untuk bulan ini.'); return; }
-  exportCsv(days, T, `laporan-keuangan-${selMonth}.csv`);
-});
-$('pCsv').addEventListener('click', () => {
+  const cur = current();
+  if(!cur.dates.length){ alert('Belum ada data untuk periode ini.'); return; }
+  const {days, T} = aggregate(cur.dates);
+  const R = [['SANDAGA MINISOCCER'], ['LAPORAN KEUANGAN ' + cur.kind.toUpperCase()], ['Periode', cur.label], ['Dicetak', stamp()], [],
+    ['RINGKASAN'], ['Keterangan','Jumlah (Rp)'],
+    ['Total Pemasukan', T.masuk], ['   Sewa Lapangan', T.lap], ['   Penjualan Minuman', T.min], ['Pengeluaran', T.out], ['Hasil Bersih', T.bersih], [],
+    ['RINCIAN KAS'], ['Keterangan','Jumlah (Rp)'], ...kasRows(T).map(([l,v]) => [l,v]), [],
+    ['RINCIAN PER HARI'],
+    ['Tanggal','Hari','Sewa Lapangan','Minuman','Total Pemasukan','Cash Lapangan','Cash Minuman','QRIS/Transfer','Pengeluaran','Hasil Bersih','Sisa Cash Lapangan','Sisa Cash Minuman','Total Sisa Cash'],
+    ...days.map(({d,s}) => [dmy(d), HARI[parse(d).getDay()], s.lap, s.min, s.masuk, s.lapCash, s.minCash, s.non, s.out, s.bersih, s.sisaLap, s.sisaMin, s.sisaCash]),
+    ['TOTAL','', T.lap, T.min, T.masuk, T.lapCash, T.minCash, T.non, T.out, T.bersih, T.sisaLap, T.sisaMin, T.sisaCash], [],
+    ['DETAIL TRANSAKSI'], ['Tanggal','Kategori','Keterangan','Jenis','Metode','Jumlah (Rp)','Cash','QRIS/Transfer','Catatan']];
+  cur.dates.forEach(d => { const o = DAYS[d]; if(!o) return;
+    [['Sewa Lapangan',o.lap],['Minuman',o.min],['Pengeluaran',o.out]].forEach(([k,list]) => list.forEach(r =>
+      R.push([dmy(d), k, r.title, r.tag||'', r.metode||'', r.free?0:r.amount, r.cash||0, r.non||0, r.note||''])));
+  });
+  const csv = R.map(r => r.map(v => `"${String(v ?? '').replace(/"/g,'""')}"`).join(',')).join('\r\n');
+  saveBlob(new Blob(['\ufeff' + csv], {type:'text/csv;charset=utf-8;'}), `laporan-keuangan-${cur.file}.csv`);
+}
+
+/* ---- JPG: digambar di canvas dengan tema sama seperti web ---- */
+const CL = {n950:'#071a4d', n800:'#0f2f80', n700:'#1a45a8', cyan:'#19c8ee', ice50:'#f4f8fd', ice100:'#dbe7f8', red:'#dc2030', red7:'#b3121f', gold:'#e3a72a', gold6:'#a8700f', gold1:'#fcf1d3', ink:'#0e1a3f', ink6:'#566587', line:'#d3dff1'};
+const BEB = "'Bebas Neue', Impact, sans-serif", POP = "'Poppins', Arial, sans-serif";
+const TAGC = {dp:['#dff6fc','#0b6f8a'], lunas:['#e3e9fa','#1f3a94'], spar:['#fde4e6','#b3121f'], '':['#fcf1d3','#a8700f']};
+const METC = {'':['#e3f1e8','#1f6b45'], non:['#dff6fc','#0b6f8a'], mix:['#f6ecd0','#8a6417'], free:['#ececec','#666666']};
+
+function paintImg(c, M){
+  const W = 1080, P = 40, IW = W - 2*P, {cur, days, T} = M, one = cur.dates.length === 1;
+  const rr = (x,y,w,h,r) => { c.beginPath(); c.moveTo(x+r,y); c.arcTo(x+w,y,x+w,y+h,r); c.arcTo(x+w,y+h,x,y+h,r); c.arcTo(x,y+h,x,y,r); c.arcTo(x,y,x+w,y,r); c.closePath(); };
+  const lg = (x,y,w,h,a,b) => { const g = c.createLinearGradient(x,y,x+w,y+h); g.addColorStop(0,a); g.addColorStop(1,b); return g; };
+  const ft = (t,x,y,f,col,al) => { c.font = f; c.fillStyle = col; c.textAlign = al || 'left'; c.textBaseline = 'alphabetic'; c.fillText(t,x,y); };
+  const tw = (t,f) => { c.font = f; return c.measureText(t).width; };
+  const clip = (t,f,max) => { c.font = f; if(c.measureText(t).width <= max) return t; while(t.length > 1 && c.measureText(t+'…').width > max) t = t.slice(0,-1); return t+'…'; };
+  const money = n => (n < 0 ? '-Rp ' : 'Rp ') + fmt(Math.abs(n));
+  const dash = (x1,x2,y,col) => { c.setLineDash([6,6]); c.strokeStyle = col; c.lineWidth = 2; c.beginPath(); c.moveTo(x1,y); c.lineTo(x2,y); c.stroke(); c.setLineDash([]); };
+  c.fillStyle = CL.ice50; c.fillRect(0,0,W,30000);
+
+  // header
+  let y = P;
+  rr(P,y,IW,128,36); c.fillStyle = lg(P,y,IW,128,'#0a2570','#153f9e'); c.fill(); c.strokeStyle = 'rgba(25,200,238,.5)'; c.lineWidth = 2.5; c.stroke();
+  let tx = P + 44;
+  if(M.logo){ const h = 100, w = M.logo.width / M.logo.height * h; c.drawImage(M.logo, P+28, y+14, w, h); tx = P + 28 + w + 24; }
+  ft('SANDAGA MINISOCCER', tx, y+54, '600 22px '+POP, CL.gold); ft('Laporan Keuangan', tx, y+98, '700 40px '+POP, CL.ice50);
+  ft(cur.kind.toUpperCase(), P+IW-40, y+82, '400 56px '+BEB, CL.cyan, 'right');
+  y += 164;
+  ft('LAPORAN ' + cur.kind.toUpperCase(), W/2, y+14, '600 22px '+POP, CL.gold6, 'center');
+  ft(cur.label, W/2, y+62, '700 42px '+POP, CL.ink, 'center'); y += 104;
+
+  // hero
+  const HH = 450;
+  c.save(); rr(P,y,IW,HH,48); c.clip(); c.fillStyle = lg(P,y,IW,HH,CL.n950,CL.n700); c.fillRect(P,y,IW,HH);
+  const rg = c.createRadialGradient(P+IW-40,y+10,0,P+IW-40,y+10,320); rg.addColorStop(0,'rgba(25,200,238,.34)'); rg.addColorStop(1,'rgba(25,200,238,0)');
+  c.fillStyle = rg; c.fillRect(P,y,IW,HH); c.restore();
+  rr(P,y,IW,HH,48); c.strokeStyle = 'rgba(25,200,238,.5)'; c.lineWidth = 2.5; c.stroke();
+  const hx = P + 44;
+  ft('TOTAL PEMASUKAN', hx, y+62, '600 22px '+POP, CL.gold);
+  ft('Rp', hx, y+170, '600 44px '+POP, CL.ice100); ft(fmt(T.masuk), hx+76, y+176, '400 140px '+BEB, '#fff');
+  const bw2 = (IW - 88 - 24) / 2;
+  [['CASH', T.cash], ['QRIS / TRANSFER', T.non]].forEach(([l,v], i) => {
+    const bx = hx + i*(bw2+24); rr(bx,y+210,bw2,106,26); c.fillStyle = 'rgba(255,255,255,.09)'; c.fill(); c.strokeStyle = 'rgba(255,255,255,.15)'; c.lineWidth = 2; c.stroke();
+    ft(l, bx+24, y+246, '500 19px '+POP, CL.ice100); ft(money(v), bx+24, y+298, '400 54px '+BEB, '#fff');
+  });
+  dash(hx, P+IW-44, y+344, 'rgba(25,200,238,.5)');
+  [['PENGELUARAN', T.out, '#ff9aa3'], ['HASIL BERSIH', T.bersih, T.bersih < 0 ? '#ff9aa3' : CL.gold]].forEach(([l,v,col], i) => {
+    const bx = hx + i*(bw2+24); ft(l, bx, y+382, '500 19px '+POP, CL.ice100); ft(money(v), bx, y+430, '400 56px '+BEB, col);
+  });
+  y += HH + 30;
+
+  // kartu statistik (sisa cash lapangan & minuman terpisah)
+  const items = statItems(T, one ? null : days), CW = (IW - 20) / 2, CH = 134;
+  items.forEach(([l,v,col,ex], i) => {
+    const x = P + (i%2)*(CW+20), yy = y + Math.floor(i/2)*(CH+20);
+    rr(x,yy,CW,CH,26); c.fillStyle = '#fff'; c.fill(); c.strokeStyle = CL.line; c.lineWidth = 2; c.stroke();
+    c.save(); rr(x,yy,CW,CH,26); c.clip(); c.fillStyle = col; c.fillRect(x,yy,10,CH); c.restore();
+    ft(l.toUpperCase(), x+34, yy+38, '600 18px '+POP, CL.ink6);
+    ft('Rp', x+34, yy+92, '600 22px '+POP, CL.ink6); ft(fmt(v), x+80, yy+96, '400 56px '+BEB, col);
+    if(ex) ft(ex, x+34, yy+121, '400 17px '+POP, CL.ink6);
+  });
+  y += Math.ceil(items.length/2) * (CH+20) + 10;
+
+  const box = (yy,h,title,count,sub,col) => {
+    rr(P,yy,IW,h,30); c.fillStyle = '#fff'; c.fill();
+    c.save(); rr(P,yy,IW,h,30); c.clip(); c.fillStyle = lg(P,yy,0,84,CL.gold1,'#fff'); c.fillRect(P,yy,IW,84); c.restore();
+    ft(title, P+30, yy+56, '400 42px '+BEB, CL.n800);
+    if(count != null){ const f = '700 18px '+POP, w = tw(String(count),f) + 24, px = P + 30 + tw(title,'400 42px '+BEB) + 16;
+      rr(px,yy+28,w,32,16); c.fillStyle = CL.ice100; c.fill(); ft(String(count), px+12, yy+51, f, CL.n800); }
+    if(sub) ft(sub, P+IW-30, yy+56, '400 40px '+BEB, col, 'right');
+  };
+  const frame = (yy,h) => { rr(P,yy,IW,h,30); c.strokeStyle = CL.line; c.lineWidth = 2; c.stroke(); };
+
+  if(one){
+    const o = DAYS[cur.dates[0]] || EMPTY_DAY, RH = 90;
+    [['Sewa Lapangan',o.lap,T.lap,CL.n700,false,'Belum ada pemasukan lapangan.'], ['Penjualan Minuman',o.min,T.min,CL.gold6,false,'Belum ada penjualan minuman.'], ['Pengeluaran',o.out,T.out,CL.red7,true,'Tidak ada pengeluaran.']].forEach(([title,rows,sub,col,out,empty]) => {
+      const h = 84 + (rows.length ? rows.length*RH : 72);
+      box(y,h,title,rows.length,money(sub),col);
+      if(!rows.length) ft(empty, W/2, y+84+44, '400 22px '+POP, CL.ink6, 'center');
+      rows.forEach((r,i) => {
+        const ry = y + 84 + i*RH; if(i) dash(P+26, P+IW-26, ry, CL.line);
+        ft(clip(r.title,'600 26px '+POP,IW-330), P+30, ry+38, '600 26px '+POP, CL.ink);
+        let px = P + 30; const py = ry + 50;
+        [[r.tag, TAGC[r.tagCls||'']], [r.metode, METC[metClass(r.metode)]]].forEach(([t,[bg,fg]]) => { if(!t) return;
+          const f = '700 15px '+POP, w = tw(t.toUpperCase(),f) + 22; rr(px,py,w,26,13); c.fillStyle = bg; c.fill(); ft(t.toUpperCase(), px+11, py+19, f, fg); px += w + 8; });
+        if(r.note) ft(clip(r.note,'400 17px '+POP,P+IW-250-px), px+4, py+19, '400 17px '+POP, CL.ink6);
+        ft(r.free ? 'GRATIS' : money(r.amount), P+IW-30, ry+56, '400 44px '+BEB, out ? CL.red7 : CL.n700, 'right');
+      });
+      frame(y,h); y += h + 22;
+    });
+  } else {
+    if(days.length <= 62){
+      const h = 340, n = days.length; box(y,h,'Grafik Harian',null,'',CL.n700);
+      [['Masuk',CL.n700],['Keluar',CL.red]].forEach(([l,col], i) => { const lx = P+IW-190+i*100; c.fillStyle = col; rr(lx,y+40,16,16,4); c.fill(); ft(l, lx+24, y+54, '500 18px '+POP, CL.ink6); });
+      const gx = P+30, bw = (IW-60)/n, base = y+h-50, mh = base-(y+110), mx = Math.max(1, ...days.map(x => Math.max(x.s.masuk, x.s.out))), step = Math.ceil(n/16);
+      c.fillStyle = CL.line; c.fillRect(gx, base, IW-60, 2);
+      days.forEach(({d,s}, i) => { const x = gx + i*bw, w = Math.max(3, bw*.36);
+        [[s.masuk, CL.n700, 0], [s.out, CL.red, w+2]].forEach(([v,col,off]) => { if(v > 0){ const bh = Math.max(4, v/mx*mh); c.fillStyle = col; rr(x+bw*.1+off, base-bh, w, bh, 3); c.fill(); } });
+        if(i % step === 0) ft(String(Number(d.slice(8))), x+bw/2, base+30, '600 17px '+POP, CL.ink6, 'center'); });
+      frame(y,h); y += h + 22;
+    }
+    const RH = 54, h = 84 + 52 + (days.length+1)*RH, cols = ['Sisa Min','Sisa Lap','Bersih','Keluar','Minuman','Lapangan'].reverse();
+    const rx = i => P + 26 + 128 + 137*(i+1) - 10;
+    box(y,h,'Rincian Per Hari',days.length+' hari','',CL.n700);
+    c.save(); rr(P,y,IW,h,30); c.clip();
+    c.fillStyle = CL.n950; c.fillRect(P,y+84,IW,52); ft('TGL', P+26, y+118, '700 16px '+POP, CL.ice100);
+    cols.forEach((t,i) => ft(t.toUpperCase(), rx(i), y+118, '700 16px '+POP, CL.ice100, 'right'));
+    const row = (vals, ry, o) => { vals.forEach((v,i) => ft(v.t, i ? rx(i-1) : P+26, ry+35, o.f, v.c || CL.ink, i ? 'right' : 'left')); };
+    days.forEach(({d,s}, i) => { const ry = y + 136 + i*RH;
+      if(i % 2) { c.fillStyle = '#f6f9fe'; c.fillRect(P,ry,IW,RH); }
+      c.globalAlpha = s.has ? 1 : .4; const nm = v => v ? fmt(v) : '–';
+      row([{t:`${d.slice(8)}/${d.slice(5,7)} ${HARI[parse(d).getDay()]}`}, {t:nm(s.lap)}, {t:nm(s.min)}, {t:nm(s.out),c:CL.red7}, {t:s.has?fmt(s.bersih):'–',c:s.bersih<0?CL.red7:CL.n800}, {t:nm(s.sisaLap)}, {t:nm(s.sisaMin)}], ry, {f:'500 21px '+POP});
+      c.globalAlpha = 1; });
+    const ty = y + 136 + days.length*RH; c.fillStyle = CL.gold1; c.fillRect(P,ty,IW,RH+4); c.fillStyle = CL.gold; c.fillRect(P,ty,IW,3);
+    row([{t:'TOTAL',c:CL.n800}, {t:fmt(T.lap)}, {t:fmt(T.min)}, {t:fmt(T.out),c:CL.red7}, {t:fmt(T.bersih),c:T.bersih<0?CL.red7:CL.n800}, {t:fmt(T.sisaLap)}, {t:fmt(T.sisaMin)}], ty, {f:'700 21px '+POP});
+    c.restore(); frame(y,h); y += h + 22;
+  }
+
+  // rincian kas
+  const kr = kasRows(T), KH = 66, kh = 84 + kr.length*KH; box(y,kh,'Rincian Kas',null,'',CL.n700);
+  kr.forEach(([l,v,k], i) => { const ry = y + 84 + i*KH;
+    if(k === 'hl' || k === 'total'){ c.save(); rr(P,y,IW,kh,30); c.clip(); c.fillStyle = k === 'hl' ? CL.gold1 : CL.ice100; c.fillRect(P+2,ry,IW-4,KH); c.restore(); }
+    else if(i) dash(P+26, P+IW-26, ry, CL.line);
+    const strong = k === 'hl' || k === 'total', col = k === 'warn' ? CL.red7 : strong ? CL.n800 : CL.ink;
+    ft(l, P+30, ry+42, (strong ? '700 ' : '500 ') + '24px '+POP, col); ft(money(v), P+IW-30, ry+46, '400 ' + (k === 'total' ? 46 : 38) + 'px '+BEB, col, 'right'); });
+  frame(y,kh); y += kh + 36;
+  ft(`Sandaga Minisoccer • dicetak ${stamp()}`, W/2, y, '400 19px '+POP, CL.ink6, 'center');
+  return y + 50;
+}
+async function makeImg(M){
+  const H = paintImg(document.createElement('canvas').getContext('2d'), M), S = Math.min(2, 15000 / H);
+  const cv = document.createElement('canvas'); cv.width = Math.round(1080*S); cv.height = Math.round(H*S);
+  const c = cv.getContext('2d'); c.scale(S,S); paintImg(c, M); return cv;
+}
+const toBlob = cv => new Promise((res, rej) => { try{ cv.toBlob(b => b ? res(b) : rej(new Error('blob')), 'image/jpeg', .95); }catch(e){ rej(e); } });
+async function exportJpg(){
   if(!ready()) return;
-  const {days, T} = rangeData(selFrom, selTo);
-  if(!days.length){ alert('Belum ada data untuk periode ini.'); return; }
-  exportCsv(days, T, `laporan-keuangan-${selFrom}_sd_${selTo}.csv`);
-});
+  const cur = current();
+  if(!cur.dates.length){ alert('Belum ada data untuk periode ini.'); return; }
+  try{ await Promise.all(["400 20px 'Bebas Neue'","500 20px Poppins","600 20px Poppins","700 20px Poppins"].map(f => document.fonts.load(f))); }catch(e){}
+  const logo = await new Promise(r => { const i = new Image(); i.onload = () => r(i); i.onerror = () => r(null); i.src = 'logo.png'; });
+  const {days, T} = aggregate(cur.dates), M = {cur, days, T, logo};
+  let blob;
+  try{ blob = await toBlob(await makeImg(M)); }catch(e){ M.logo = null; blob = await toBlob(await makeImg(M)); }
+  saveBlob(blob, `laporan-keuangan-${cur.file}.jpg`);
+}
+['d','m','p'].forEach(k => { $(k+'Csv').addEventListener('click', exportCsv); $(k+'Jpg').addEventListener('click', exportJpg); });
 
 /* ============ REALTIME ============ */
 let buildTimer = null;
