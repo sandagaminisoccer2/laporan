@@ -599,6 +599,25 @@ function buildIndex(){
   Object.values(DATA.pemasukan || {}).forEach(item => {
     if(!item || typeof item !== 'object') return;
     const d = ymd(item.tgl); if(!d) return;
+    // Uang Masuk manual yang diarahkan ke "Uang Minuman" (masukKe === 'minuman')
+    // tampil & dihitung di bagian Minuman, sama seperti di admin (bukan di Sewa Lapangan).
+    if(item.masukKe === 'minuman'){
+      const mt = payTotal(item,1) + payTotal(item,2);
+      const mc = payCash(item,1) + payCash(item,2);
+      const mn = payNon(item,1) + payNon(item,2);
+      const mm = [];
+      [1,2].forEach(n => payParts(item,n).forEach(p => { if(p.jumlah > 0 && !mm.includes(p.metode)) mm.push(p.metode); }));
+      const mmet = item.metode1 || item.metode || 'Cash';
+      dayObj(d).min.push({
+        title: item.ket || 'Uang Masuk',
+        tag: 'Uang Masuk', tagCls: '',
+        metode: mm.length ? mm.join(' + ') : mmet,
+        amount: mt, cash: mc, non: mn,
+        free: mt === 0 && NOVALUE.includes(mmet),
+        note: ''
+      });
+      return;
+    }
     const kk = Number(item.totalKaosKaki || 0);
     const t1 = payTotal(item,1), t2 = payTotal(item,2);
     const amount = t1 + t2 + kk;
@@ -1394,12 +1413,6 @@ render(false);
   <p>Pasang di layar utama HP supaya bisa dibuka seperti aplikasi biasa.</p>
   <div class="pwa-row"><button class="pwa-no" id="pwa-no" type="button">Nanti</button><button class="pwa-yes" id="pwa-yes" type="button">📲 Install</button></div>
 </div></div>
-<div id="pwa-android" class="pwa-modal"><div class="pwa-card">
-  <img alt="" src="ikon-laporan.png"/>
-  <h3>Pasang Aplikasi Laporan</h3>
-  <ol><li>Tap menu <b>⋮</b> (tiga titik) di pojok kanan atas Chrome</li><li>Pilih <b>Install aplikasi</b> atau <b>Tambahkan ke layar utama</b></li><li>Tap <b>Install</b> / <b>Tambahkan</b></li></ol>
-  <div class="pwa-row"><button class="pwa-yes" id="pwa-android-close" type="button">Mengerti</button></div>
-</div></div>
 <div id="pwa-ios" class="pwa-modal"><div class="pwa-card">
   <img alt="" src="ikon-laporan.png"/>
   <h3>Pasang Aplikasi Laporan</h3>
@@ -1427,20 +1440,12 @@ if ('serviceWorker' in navigator) {
     if (!dismissed()) setTimeout(function () { modal.classList.add('show'); }, 900);
   });
   window.addEventListener('appinstalled', function () { fab.style.display = 'none'; modal.classList.remove('show'); deferred = null; });
-  function run() { if (!deferred) return; var p = deferred; deferred = null; p.prompt(); }
+  function run() { if (!deferred) return; var p = deferred; deferred = null; fab.style.display = 'none'; p.prompt(); }
   document.getElementById('pwa-no').onclick = function () { modal.classList.remove('show'); remember(); };
   document.getElementById('pwa-yes').onclick = function () { modal.classList.remove('show'); remember(); run(); };
   document.getElementById('pwa-ios-close').onclick = function () { ios.classList.remove('show'); remember(); };
-  fab.onclick = function () { if (isIos()) ios.classList.add('show'); else if (deferred) run(); else document.getElementById('pwa-android').classList.add('show'); };
-  document.getElementById('pwa-android-close').onclick = function () { document.getElementById('pwa-android').classList.remove('show'); remember(); };
+  fab.onclick = function () { isIos() ? ios.classList.add('show') : run(); };
   if (isIos()) { fab.style.display = 'flex'; }
-  else {
-    // Cadangan: kalau Chrome tidak mengirim prompt otomatis, tampilkan panduan manual
-    fab.style.display = 'flex';
-    setTimeout(function () {
-      if (!deferred && !dismissed()) document.getElementById('pwa-android').classList.add('show');
-    }, 2500);
-  }
 })();
 </script>
 </body>
