@@ -590,6 +590,65 @@ let loadError = null;
 let DAYS = {};
 let lastUpdate = null;
 
+/* ============ CACHE OFFLINE (IndexedDB) ============
+   Salinan terakhir tiap node disimpan di perangkat. Saat dibuka, salinan langsung
+   ditampilkan, lalu ditimpa data terbaru dari server begitu tersambung. */
+const real = new Set();          // node yang sudah menerima data asli dari server
+const cacheTime = {};            // node -> waktu salinan disimpan (ms)
+const CACHE_MAX_AGE = 3*24*3600*1000;
+const IDB = (function(){
+  let p = null;
+  function open(){
+    if(p) return p;
+    p = new Promise((res, rej) => {
+      try{
+        const r = indexedDB.open('laporan-data-cache', 1);
+        r.onupgradeneeded = () => r.result.createObjectStore('kv');
+        r.onsuccess = () => res(r.result);
+        r.onerror = () => rej(r.error);
+      }catch(e){ rej(e); }
+    });
+    return p;
+  }
+  return {
+    get(k){
+      return open().then(db2 => new Promise(res => {
+        const q = db2.transaction('kv').objectStore('kv').get(k);
+        q.onsuccess = () => res(q.result);
+        q.onerror = () => res(undefined);
+      })).catch(() => undefined);
+    },
+    set(k, v){
+      return open().then(db2 => { db2.transaction('kv','readwrite').objectStore('kv').put(v, k); }).catch(() => {});
+    }
+  };
+})();
+// booking: laporan hanya butuh yang punya DP, dan hanya 5 field -> salinan jauh lebih kecil
+function slimForCache(n, val){
+  val = val || {};
+  if(n !== 'booking') return val;
+  const out = {};
+  Object.keys(val).forEach(k => {
+    const b = val[k];
+    if(b && typeof b === 'object' && Number(b.dp || 0) > 0){
+      out[k] = {dp:b.dp, tglDp:b.tglDp||'', metode:b.metode||'Cash', nama:b.nama||'', tgl:b.tgl||''};
+    }
+  });
+  return out;
+}
+const cacheTimers = {};
+function cachePut(n, val){
+  clearTimeout(cacheTimers[n]);
+  cacheTimers[n] = setTimeout(() => { IDB.set('v1:' + n, {t: Date.now(), v: slimForCache(n, val)}); }, 800);
+}
+function usingCache(){ return NODES.some(n => !real.has(n)); }
+function cacheStamp(){
+  const ts = NODES.map(n => cacheTime[n]).filter(Boolean);
+  if(!ts.length) return '';
+  const d = new Date(Math.min.apply(null, ts));
+  return pad(d.getDate()) + '/' + pad(d.getMonth()+1) + ' ' + pad(d.getHours()) + ':' + pad(d.getMinutes());
+}
+
 function dayObj(d){ return DAYS[d] || (DAYS[d] = {lap:[], min:[], out:[]}); }
 
 function buildIndex(){
@@ -969,7 +1028,12 @@ function render(animate){
     }
   }
   lastUpdate = new Date();
-  $('foot').innerHTML = `<span class="dot"></span>Tersinkron langsung dari sistem admin • diperbarui ${pad(lastUpdate.getHours())}:${pad(lastUpdate.getMinutes())}`;
+  if(usingCache()){
+    const off = navigator.onLine === false;
+    $('foot').innerHTML = (off ? 'Offline • ' : 'Memperbarui data… • ') + 'menampilkan data tersimpan' + (cacheStamp() ? ' per ' + cacheStamp() : '');
+  } else {
+    $('foot').innerHTML = `<span class="dot"></span>Tersinkron langsung dari sistem admin • diperbarui ${pad(lastUpdate.getHours())}:${pad(lastUpdate.getMinutes())}`;
+  }
 }
 
 /* ============ NAVIGASI ============ */
@@ -1375,17 +1439,50 @@ function scheduleBuild(){
     render(!document.querySelector('#harianBody .hero, #bulananBody .hero, #periodeBody .hero'));
   }, 60);
 }
+// a) tampilkan salinan tersimpan lebih dulu (kalau ada dan belum kedaluwarsa)
 NODES.forEach(n => {
-  onValue(ref(db, n), snap => {
-    DATA[n] = snap.val() || {};
+  IDB.get('v1:' + n).then(rec => {
+    if(real.has(n) || !rec || !rec.t || rec.v == null) return;
+    if(Date.now() - rec.t > CACHE_MAX_AGE && navigator.onLine !== false) return;
+    DATA[n] = rec.v;
+    cacheTime[n] = rec.t;
     loaded.add(n);
-    scheduleBuild();
-  }, err => {
-    console.error('[laporan] gagal membaca', n, err);
-    loadError = err;
     scheduleBuild();
   });
 });
+// b) data asli dari server menimpa salinan dan memperbarui cache
+NODES.forEach(n => {
+  onValue(ref(db, n), snap => {
+    DATA[n] = snap.val() || {};
+    real.add(n);
+    loaded.add(n);
+    cachePut(n, DATA[n]);
+    scheduleBuild();
+  }, err => {
+    console.error('[laporan] gagal membaca', n, err);
+    if(!loaded.has(n)) loadError = err;   // kalau sudah ada salinan, jangan tampilkan "Gagal memuat"
+    scheduleBuild();
+  });
+});
+
+// chip offline
+(function(){
+  function chip(){
+    let el = document.getElementById('lz-offline');
+    if(navigator.onLine !== false){ if(el) el.remove(); scheduleBuild(); return; }
+    scheduleBuild();
+    if(el || !document.body) return;
+    el = document.createElement('div');
+    el.id = 'lz-offline';
+    el.setAttribute('role','status');
+    el.style.cssText = 'position:fixed;left:50%;transform:translateX(-50%);bottom:calc(76px + env(safe-area-inset-bottom,0px));z-index:9990;padding:7px 14px;border-radius:999px;background:rgba(180,83,9,.94);color:#fff;font:700 11px/1.25 Poppins,system-ui,sans-serif;text-align:center;max-width:92vw;pointer-events:none;box-shadow:0 4px 14px rgba(0,0,0,.25)';
+    el.textContent = 'Offline — menampilkan data terakhir yang tersimpan.';
+    document.body.appendChild(el);
+  }
+  window.addEventListener('online', chip);
+  window.addEventListener('offline', chip);
+  if(navigator.onLine === false) chip();
+})();
 
 render(false);
 </script>
