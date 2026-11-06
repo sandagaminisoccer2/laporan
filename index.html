@@ -766,11 +766,17 @@ function buildIndex(){
     if(!item || typeof item !== 'object') return;
     const catat = ymd(item.tgl);
     const d = ymd(item.sumberTgl) || catat; if(!d) return;
+    const su = item.sumberUang === 'minuman' ? 'minuman' : (item.sumberUang === 'lapangan' ? 'lapangan' : '');
+    const notes = [];
+    if(su === 'minuman') notes.push('dari Uang Minuman');
+    else if(su === 'lapangan') notes.push('dari Uang Lapangan');
+    if(catat && catat !== d) notes.push('dicatat ' + dmy(catat));
     dayObj(d).out.push({
       title: item.ket || 'Pengeluaran',
       tag: '', metode: '',
       amount: Number(item.jumlah || 0),
-      note: (catat && catat !== d) ? 'dicatat ' + dmy(catat) : ''
+      sumberUang: su,
+      note: notes.join(' • ')
     });
   });
 }
@@ -781,13 +787,23 @@ function summarize(d){
   let lap=0, lapCash=0, lapNon=0, min=0, minCash=0, minNon=0, out=0;
   o.lap.forEach(r => { lap += r.amount; lapCash += r.cash; lapNon += r.non; });
   o.min.forEach(r => { min += r.amount; minCash += r.cash; minNon += r.non; });
-  o.out.forEach(r => { out += r.amount; });
-  // Alokasi pengeluaran: utamakan cash lapangan, kekurangannya dari cash minuman
-  const outLap = Math.min(out, lapCash);
-  const outMin = Math.min(Math.max(0, out - outLap), minCash);
-  const short  = Math.max(0, out - outLap - outMin);
-  const sisaLap = Math.max(0, lapCash - outLap);
-  const sisaMin = Math.max(0, minCash - outMin);
+  let expLap = 0, expMin = 0, auto = 0;
+  o.out.forEach(r => {
+    out += r.amount;
+    // Sama seperti admin: ikuti sumber uang yang dipilih saat input pengeluaran
+    if(r.sumberUang === 'lapangan') expLap += r.amount;
+    else if(r.sumberUang === 'minuman') expMin += r.amount;
+    else auto += r.amount;               // "Otomatis": cash lapangan dulu, sisanya cash minuman
+  });
+  let outLap = Math.min(expLap, lapCash);
+  let outMin = Math.min(expMin, minCash);
+  let short  = (expLap - outLap) + (expMin - outMin);
+  const autoLap = Math.min(auto, lapCash - outLap);
+  const autoMin = Math.min(Math.max(0, auto - autoLap), minCash - outMin);
+  short += Math.max(0, auto - autoLap - autoMin);
+  outLap += autoLap; outMin += autoMin;
+  const sisaLap = lapCash - outLap;
+  const sisaMin = minCash - outMin;
   return {
     lap, lapCash, lapNon, min, minCash, minNon, out,
     outLap, outMin, short, sisaLap, sisaMin, sisaCash: sisaLap + sisaMin,
