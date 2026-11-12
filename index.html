@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, viewport-fit=cover"/>
-<title>Laporan Keuangan — Sandaga Minisoccer</title>
+<title>Laporan Keuangan — Sandaga Minisoccer 2</title>
 <meta name="theme-color" content="#071a4d"/>
 <meta name="robots" content="noindex,nofollow"/>
 
@@ -11,7 +11,7 @@
 <meta name="mobile-web-app-capable" content="yes"/>
 <meta name="apple-mobile-web-app-capable" content="yes"/>
 <meta name="apple-mobile-web-app-status-bar-style" content="default"/>
-<meta name="apple-mobile-web-app-title" content="Laporan"/>
+<meta name="apple-mobile-web-app-title" content="Laporan Minisoccer 2"/>
 <link rel="manifest" href="manifest-laporan.json"/>
 <link href="ikon-laporan.png" rel="icon" type="image/png"/>
 <link href="ikon-laporan.png" rel="apple-touch-icon"/>
@@ -462,9 +462,9 @@ tfoot td.net.minus{color:var(--red-700);}
 <body>
 
 <div class="topbar">
-  <img src="logo.png" alt="Sandaga Mini Soccer" onerror="this.style.display='none'"/>
+  <img src="logo.png" alt="Sandaga Minisoccer 2" onerror="this.style.display='none'"/>
   <div class="topbar-text">
-    <div class="eyebrow">SANDAGA MINISOCCER</div>
+    <div class="eyebrow">SANDAGA MINISOCCER 2</div>
     <div class="brand">Laporan Keuangan</div>
   </div>
 </div>
@@ -1240,7 +1240,7 @@ function exportCsv(){
   const cur = current();
   if(!cur.dates.length){ alert('Belum ada data untuk periode ini.'); return; }
   const {days, T} = aggregate(cur.dates);
-  const R = [['SANDAGA MINISOCCER'], ['LAPORAN KEUANGAN ' + cur.kind.toUpperCase()], ['Periode', cur.label], ['Dicetak', stamp()], [],
+  const R = [['SANDAGA MINISOCCER 2'], ['LAPORAN KEUANGAN ' + cur.kind.toUpperCase()], ['Periode', cur.label], ['Dicetak', stamp()], [],
     ['RINGKASAN'], ['Keterangan','Jumlah (Rp)'],
     ['Total Pemasukan', T.masuk], ['   Sewa Lapangan', T.lap], ['   Penjualan Minuman', T.min], ['Pengeluaran', T.out], ['Hasil Bersih', T.bersih], [],
     ['RINCIAN KAS'], ['Keterangan','Jumlah (Rp)'], ...kasRows(T).map(([l,v]) => [l,v]), [],
@@ -1274,12 +1274,12 @@ async function exportExcel(){
   const fill = c => ({type:'pattern', pattern:'solid', fgColor:{argb:c}});
   const thin = {style:'thin', color:{argb:X.line}}, box = {top:thin, bottom:thin, left:thin, right:thin};
   const RP = '"Rp" #,##0;[Red]-"Rp" #,##0;"–"', RP0 = '"Rp" #,##0;[Red]-"Rp" #,##0';
-  const wb = new ExcelJS.Workbook(); wb.creator = 'Sandaga Minisoccer';
+  const wb = new ExcelJS.Workbook(); wb.creator = 'Sandaga Minisoccer 2';
   const ws = wb.addWorksheet('Laporan', {views:[{showGridLines:false}], pageSetup:{orientation:'landscape', fitToPage:true, fitToWidth:1, fitToHeight:0}});
   [13,9,17,17,18,17,17,17,17,17,19,19,18].forEach((w,i) => ws.getColumn(i+1).width = w);
   let r = 1;
   const band = (text, h, font, bg, ha) => { ws.mergeCells(r,1,r,13); const c = ws.getCell(r,1); c.value = text; c.font = font; c.fill = fill(bg); c.alignment = {vertical:'middle', horizontal:ha||'left', indent:1}; ws.getRow(r).height = h; r++; };
-  band('SANDAGA MINISOCCER', 24, {size:11, bold:true, color:{argb:X.gold}}, X.n950);
+  band('SANDAGA MINISOCCER 2', 24, {size:11, bold:true, color:{argb:X.gold}}, X.n950);
   band('Laporan Keuangan ' + cur.kind, 38, {size:24, bold:true, color:{argb:X.white}}, X.n950);
   band(`Periode: ${cur.label}     •     Dicetak: ${stamp()}`, 24, {size:11, color:{argb:X.ice1}}, X.n950);
   ws.getRow(r++).height = 10;
@@ -1320,7 +1320,7 @@ async function exportExcel(){
     ws.getRow(r).height = 22; r++; };
   days.forEach(({d,s}, i) => line([dmy(d), HARI[parse(d).getDay()], s.lap, s.min, s.masuk, s.lapCash, s.minCash, s.non, s.out, s.bersih, s.sisaLap, s.sisaMin, s.sisaCash], i % 2 ? X.zebra : X.white, false));
   line(['TOTAL','', T.lap, T.min, T.masuk, T.lapCash, T.minCash, T.non, T.out, T.bersih, T.sisaLap, T.sisaMin, T.sisaCash], X.gold1, true, true);
-  r++; ws.mergeCells(r,1,r,13); const ft2 = ws.getCell(r,1); ft2.value = 'Sandaga Minisoccer • Laporan Keuangan'; ft2.font = {size:9, italic:true, color:{argb:X.ink6}}; ft2.alignment = {horizontal:'center'};
+  r++; ws.mergeCells(r,1,r,13); const ft2 = ws.getCell(r,1); ft2.value = 'Sandaga Minisoccer 2 • Laporan Keuangan'; ft2.font = {size:9, italic:true, color:{argb:X.ink6}}; ft2.alignment = {horizontal:'center'};
 
   // sheet 2: detail transaksi
   const w2 = wb.addWorksheet('Detail Transaksi', {views:[{showGridLines:false, state:'frozen', ySplit:3}]});
@@ -1362,7 +1362,7 @@ function paintImg(c, M){
   rr(P,y,IW,128,36); c.fillStyle = lg(P,y,IW,128,'#0a2570','#153f9e'); c.fill(); c.strokeStyle = 'rgba(25,200,238,.5)'; c.lineWidth = 2.5; c.stroke();
   let tx = P + 44;
   if(M.logo){ const h = 100, w = M.logo.width / M.logo.height * h; c.drawImage(M.logo, P+28, y+14, w, h); tx = P + 28 + w + 24; }
-  ft('SANDAGA MINISOCCER', tx, y+54, '600 22px '+POP, CL.gold); ft('Laporan Keuangan', tx, y+98, '700 40px '+POP, CL.ice50);
+  ft('SANDAGA MINISOCCER 2', tx, y+54, '600 22px '+POP, CL.gold); ft('Laporan Keuangan', tx, y+98, '700 40px '+POP, CL.ice50);
   ft(cur.kind.toUpperCase(), P+IW-40, y+82, '400 56px '+BEB, CL.cyan, 'right');
   y += 164;
   ft('LAPORAN ' + cur.kind.toUpperCase(), W/2, y+14, '600 22px '+POP, CL.gold6, 'center');
@@ -1389,16 +1389,16 @@ function paintImg(c, M){
   y += HH + 30;
 
   // kartu statistik (sisa cash lapangan & minuman terpisah)
-  const items = statItems(T, one ? null : days), CW = (IW - 20) / 2, CH = 134;
+  const items = statItems(T, one ? null : days), NC = one ? 3 : 2, GP = 20, CW = (IW - GP*(NC-1)) / NC, CH = 134;
   items.forEach(([l,v,col,ex], i) => {
-    const x = P + (i%2)*(CW+20), yy = y + Math.floor(i/2)*(CH+20);
+    const x = P + (i%NC)*(CW+GP), yy = y + Math.floor(i/NC)*(CH+GP);
     rr(x,yy,CW,CH,26); c.fillStyle = '#fff'; c.fill(); c.strokeStyle = CL.line; c.lineWidth = 2; c.stroke();
     c.save(); rr(x,yy,CW,CH,26); c.clip(); c.fillStyle = col; c.fillRect(x,yy,10,CH); c.restore();
-    ft(l.toUpperCase(), x+34, yy+38, '600 18px '+POP, CL.ink6);
+    ft(clip(l.toUpperCase(),'600 18px '+POP,CW-52), x+34, yy+38, '600 18px '+POP, CL.ink6);
     ft('Rp', x+34, yy+92, '600 22px '+POP, CL.ink6); ft(fmt(v), x+80, yy+96, '400 56px '+BEB, col);
-    if(ex) ft(ex, x+34, yy+121, '400 17px '+POP, CL.ink6);
+    if(ex) ft(clip(ex,'400 17px '+POP,CW-52), x+34, yy+121, '400 17px '+POP, CL.ink6);
   });
-  y += Math.ceil(items.length/2) * (CH+20) + 10;
+  y += Math.ceil(items.length/NC) * (CH+GP) + 10;
 
   const box = (yy,h,title,count,sub,col) => {
     rr(P,yy,IW,h,30); c.fillStyle = '#fff'; c.fill();
@@ -1411,19 +1411,40 @@ function paintImg(c, M){
   const frame = (yy,h) => { rr(P,yy,IW,h,30); c.strokeStyle = CL.line; c.lineWidth = 2; c.stroke(); };
 
   if(one){
-    const o = DAYS[cur.dates[0]] || EMPTY_DAY, RH = 90;
+    const o = DAYS[cur.dates[0]] || EMPTY_DAY, TF = '600 26px '+POP, CF = '700 15px '+POP, NF = '400 17px '+POP, AF = '400 44px '+BEB;
+    // pecah judul panjang jadi beberapa baris (maks 3), tidak dipotong "…"
+    const wrap = (t,f,max,maxLines) => { c.font = f; const ws = String(t).split(/\s+/), L = []; let cu = '';
+      ws.forEach(w => { const s = cu ? cu+' '+w : w; if(!cu || c.measureText(s).width <= max) cu = s; else { L.push(cu); cu = w; } });
+      if(cu) L.push(cu);
+      if(L.length > maxLines){ const rest = L.splice(maxLines-1).join(' '); L.push(rest); }
+      return L.map(s => clip(s,f,max)); };
+    const layout = r => {
+      const amt = r.free ? 'GRATIS' : money(r.amount), amtW = tw(amt,AF), maxW = IW - 60 - amtW - 28;
+      const lines = wrap(r.title, TF, maxW, 3);
+      const chips = [[r.tag, TAGC[r.tagCls||'']], [r.metode, METC[metClass(r.metode)]]].filter(q => q[0]);
+      const chipsW = chips.reduce((a,q) => a + tw(q[0].toUpperCase(),CF) + 30, 0);
+      const noteW = r.note ? Math.min(tw(r.note,NF), 220) + 8 : 0;
+      const extra = chips.length || r.note;
+      const inline = !!extra && lines.length === 1 && tw(lines[0],TF) + 18 + chipsW + noteW <= maxW;
+      const below = !!extra && !inline;
+      return {amt, maxW, lines, chips, inline, below, h: 18 + lines.length*34 + (below ? 36 : 0) + 14};
+    };
     [['Sewa Lapangan',o.lap,T.lap,CL.n700,false,'Belum ada pemasukan lapangan.'], ['Penjualan Minuman',o.min,T.min,CL.gold6,false,'Belum ada penjualan minuman.'], ['Pengeluaran',o.out,T.out,CL.red7,true,'Tidak ada pengeluaran.']].forEach(([title,rows,sub,col,out,empty]) => {
-      const h = 84 + (rows.length ? rows.length*RH : 72);
+      const lay = rows.map(layout), h = 84 + (rows.length ? lay.reduce((a,L) => a + L.h, 0) : 72);
       box(y,h,title,rows.length,money(sub),col);
       if(!rows.length) ft(empty, W/2, y+84+44, '400 22px '+POP, CL.ink6, 'center');
-      rows.forEach((r,i) => {
-        const ry = y + 84 + i*RH; if(i) dash(P+26, P+IW-26, ry, CL.line);
-        ft(clip(r.title,'600 26px '+POP,IW-330), P+30, ry+38, '600 26px '+POP, CL.ink);
-        let px = P + 30; const py = ry + 50;
-        [[r.tag, TAGC[r.tagCls||'']], [r.metode, METC[metClass(r.metode)]]].forEach(([t,[bg,fg]]) => { if(!t) return;
-          const f = '700 15px '+POP, w = tw(t.toUpperCase(),f) + 22; rr(px,py,w,26,13); c.fillStyle = bg; c.fill(); ft(t.toUpperCase(), px+11, py+19, f, fg); px += w + 8; });
-        if(r.note) ft(clip(r.note,'400 17px '+POP,P+IW-250-px), px+4, py+19, '400 17px '+POP, CL.ink6);
-        ft(r.free ? 'GRATIS' : money(r.amount), P+IW-30, ry+56, '400 44px '+BEB, out ? CL.red7 : CL.n700, 'right');
+      let ry = y + 84;
+      rows.forEach((r,i) => { const L = lay[i];
+        if(i) dash(P+26, P+IW-26, ry, CL.line);
+        L.lines.forEach((ln,k) => ft(ln, P+30, ry+43+k*34, TF, CL.ink));
+        let px = P + 30, py;
+        if(L.inline){ px += tw(L.lines[0],TF) + 18; py = ry + 23; } else { py = ry + 18 + L.lines.length*34 + 2; }
+        if(L.inline || L.below){
+          L.chips.forEach(([t,[bg,fg]]) => { const f = CF, w = tw(t.toUpperCase(),f) + 22; rr(px,py,w,26,13); c.fillStyle = bg; c.fill(); ft(t.toUpperCase(), px+11, py+19, f, fg); px += w + 8; });
+          if(r.note) ft(clip(r.note,NF,Math.max(60, P+IW-30-tw(L.amt,AF)-28-px)), px+4, py+19, NF, CL.ink6);
+        }
+        ft(L.amt, P+IW-30, ry + L.h/2 + 15, AF, out ? CL.red7 : CL.n700, 'right');
+        ry += L.h;
       });
       frame(y,h); y += h + 22;
     });
@@ -1463,7 +1484,7 @@ function paintImg(c, M){
     const strong = k === 'hl' || k === 'total', col = k === 'warn' ? CL.red7 : strong ? CL.n800 : CL.ink;
     ft(l, P+30, ry+42, (strong ? '700 ' : '500 ') + '24px '+POP, col); ft(money(v), P+IW-30, ry+46, '400 ' + (k === 'total' ? 46 : 38) + 'px '+BEB, col, 'right'); });
   frame(y,kh); y += kh + 36;
-  ft(`Sandaga Minisoccer • dicetak ${stamp()}`, W/2, y, '400 19px '+POP, CL.ink6, 'center');
+  ft(`Sandaga Minisoccer 2 • dicetak ${stamp()}`, W/2, y, '400 19px '+POP, CL.ink6, 'center');
   return y + 50;
 }
 async function makeImg(M){
