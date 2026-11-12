@@ -414,6 +414,45 @@ tfoot td.net.minus{color:var(--red-700);}
   .hero-amount{font-size:46px;}
   .stat b{font-size:22px;}
 }
+/* ===== DESKTOP LEBAR: isi halaman mengikuti lebar layar ===== */
+@media (min-width:1024px){
+  :root{ --page-w:min(92vw, 2200px); --bar-w:var(--page-w); }
+  main{max-width:calc(var(--page-w) + 32px); padding-top:26px;}
+  .hero{padding:26px 28px 22px;}
+  .hero-amount{font-size:64px;}
+  .hero-amount span{font-size:20px;}
+  .hero-split b{font-size:26px;}
+  .hero-foot b{font-size:28px;}
+  .stats{gap:16px;}
+  .stats.six{grid-template-columns:repeat(6,1fr);}
+  .stat{padding:15px 16px;}
+  .stat b{font-size:29px;}
+  .block-head{padding:15px 20px 13px;}
+  .row{padding:13px 20px;}
+  .row-title{font-size:14.5px;}
+  .chart-card{padding:18px 20px 12px;}
+  .chart{gap:8px;}
+  .bar-col{flex:1 0 22px;}
+  .bars{height:170px;}
+  table{font-size:13.5px; min-width:0;}
+  thead th{padding:13px 16px; font-size:11px;}
+  tbody td{padding:12px 16px;}
+  tfoot td{padding:14px 16px;}
+  /* Harian: blok daftar tersusun berdampingan */
+  #harianBody{display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:18px; align-items:start;}
+  #harianBody > .hero, #harianBody > .stats, #harianBody > .state-box{grid-column:1 / -1;}
+  #harianBody > .stats{margin-top:0;}
+  #harianBody > .block{margin-top:0;}
+}
+@media (min-width:1600px){
+  main{padding-left:24px; padding-right:24px;}
+  .hero-amount{font-size:72px;}
+  .stat b{font-size:32px;}
+  .stats:not(.six){grid-template-columns:repeat(8,1fr);}
+  #harianBody{grid-template-columns:repeat(4,minmax(0,1fr));}
+  .bars{height:200px;}
+  table{font-size:14.5px;}
+}
 @media print{
   .topbar,.dock-wrap,.picker,.chips,body::before,body::after{display:none !important;}
   main{padding:0;}
